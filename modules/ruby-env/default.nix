@@ -27,13 +27,8 @@ let
   };
 
   # useful for production
-  envMinimal = buildEnv {
+  envMinimal = rubyEnv.override {
     inherit name;
-    paths = [ rubyEnv ];
-    pathsToLink = [ "/lib" ];
-    meta = {
-      platforms = ruby.meta.platforms;
-    };
   };
 in
 { inherit env envMinimal; }

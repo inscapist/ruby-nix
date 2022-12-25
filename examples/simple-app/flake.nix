@@ -5,7 +5,6 @@
     ruby-nix.url = "github:sagittaros/ruby-nix";
     flake-utils.url = "github:numtide/flake-utils";
   };
-
   outputs = { self, nixpkgs, ruby-nix, flake-utils }:
     flake-utils.lib.eachSystem [
       "aarch64-darwin"
@@ -21,9 +20,8 @@
             name = "simple-ruby-app";
             gemset = ./gemset.nix;
           }) env envMinimal;
-
         in
-        rec {
+        {
           devShells = rec {
             default = dev;
             dev = pkgs.mkShell {
