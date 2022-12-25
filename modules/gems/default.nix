@@ -1,4 +1,5 @@
 { lib
+, my
 , ruby
 , groups
 , document
@@ -8,29 +9,30 @@
 , ...
 }:
 
-with import ../../mylib.nix;
-
 let
   inherit (lib) mapAttrs;
-  inherit (import ./gemset-resolver.nix { inherit lib ruby groups; }) resolveGemset;
+  inherit (import ./gemset-resolver.nix { inherit lib ruby groups; })
+    resolveGemset;
 
-  applyGemConfig = applyConfig gemConfig;
+  applyGemConfig = my.applyConfig gemConfig;
 
-  finalGemAttrs = ruby: gems: name: attrs: ((removeAttrs attrs [ "platforms" ]) // {
-    inherit ruby;
-    inherit (attrs.source) type;
-    source = removeAttrs attrs.source [ "type" ];
-    gemName = name;
-    # equivalent to buildInputs
-    gemPath = map (gemName: gems.${gemName}) (attrs.dependencies or [ ]);
-  });
+  finalGemAttrs = ruby: gems: name: attrs:
+    ((removeAttrs attrs [ "platforms" ]) // {
+      inherit ruby;
+      inherit (attrs.source) type;
+      source = removeAttrs attrs.source [ "type" ];
+      gemName = name;
+      # equivalent to buildInputs
+      gemPath = map (gemName: gems.${gemName}) (attrs.dependencies or [ ]);
+    });
 
   buildGem = name: attrs:
     buildRubyGem (finalGemAttrs ruby gems name attrs);
 
   gemset' = mapAttrs
     (name: attrs:
-      applyGemConfig (attrs // { inherit ruby document; gemName = name; })
+      applyGemConfig (attrs //
+        { inherit ruby document; gemName = name; })
     )
     (resolveGemset gemset);
 

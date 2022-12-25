@@ -1,69 +1,39 @@
 { stdenv
 , lib
-, makeBinaryWrapper
+, my
+, ruby
 , buildEnv
 , name
-, ruby
-, bundler
-, gempaths
-, groups
-, extraSetup
+, bundix
 , ...
-}:
+}@args:
 
 let
-  # we could use substituteAll, but somehow this feels nicer
-  mkBinStubs = ''
-    ${ruby}/bin/ruby ${./gen-bin-stubs.rb} \
-      "${ruby}/bin/ruby" \
-      "$out/${ruby.gemPath}" \
-      "${bundler}/${ruby.gemPath}/gems/bundler-${bundler.version}" \
-      ${lib.escapeShellArg gempaths} \
-      ${lib.escapeShellArg groups}
-  '';
-  envArgs = {
+  rubyEnv = import ./ruby-env.nix args;
+
+  extras = [
+    bundix
+    (my.shell "generate-gemset" ./generate-gemset.sh)
+  ];
+
+  # useful for development
+  env = buildEnv {
     inherit name;
-
-    paths = gempaths;
-    pathsToLink = [ "/lib" ]; # /bin is created in postBuild
-
-    postBuild = mkBinStubs
-      + lib.optionalString (extraSetup != null) extraSetup;
-
-    passthru = {
-      # This wraps ruby, gem and other tools from nixpkgs#ruby
-      ruby = stdenv.mkDerivation {
-        name = "wrapped-ruby-${name}";
-
-        nativeBuildInputs = [ makeBinaryWrapper ];
-
-        dontUnpack = true;
-
-        buildPhase = ''
-          mkdir -p $out/bin
-          for i in ${ruby}/bin/*; do
-            makeWrapper "$i" $out/bin/$(basename "$i") \
-              --set GEM_HOME ${rubyEnv}/${ruby.gemPath} \
-              --set GEM_PATH ${rubyEnv}/${ruby.gemPath}
-          done
-        '';
-
-        dontInstall = true;
-
-        doCheck = true;
-        checkPhase = ''
-          $out/bin/ruby --help > /dev/null
-          $out/bin/gem --version > /dev/null
-        '';
-
-        inherit (ruby) meta;
-      };
-    };
-
+    paths = [ rubyEnv (lib.lowPrio rubyEnv.ruby) ] ++ extras;
+    pathsToLink = [ "/" ];
     meta = {
       platforms = ruby.meta.platforms;
     };
   };
-  rubyEnv = buildEnv envArgs;
+
+  # useful for production
+  envMinimal = buildEnv {
+    inherit name;
+    paths = [ rubyEnv ];
+    pathsToLink = [ "/lib" ];
+    meta = {
+      platforms = ruby.meta.platforms;
+    };
+  };
 in
-rubyEnv
+{ inherit env envMinimal; }
