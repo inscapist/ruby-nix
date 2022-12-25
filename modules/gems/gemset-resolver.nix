@@ -8,12 +8,13 @@ rec {
   resolveGemset = gemset:
     let
       platformGems = filterAttrs (_: platformMatches ruby) gemset;
-      strictlyMatched = filterAttrs (_: groupMatches groups) platformGems;
+      allowedGems = filterAttrs (_: notLocalGems) platformGems;
+      strictlyMatched = filterAttrs (_: groupMatches groups) allowedGems;
 
       expandDependencies = gems:
         let
           depNames = concatMap (gem: gem.dependencies or [ ]) (attrValues gems);
-          deps = getAttrs depNames platformGems;
+          deps = getAttrs depNames allowedGems;
         in
         gems // deps;
     in
@@ -36,4 +37,7 @@ rec {
   groupMatches = groups: attrs:
     groups == null || !(attrs ? groups) ||
     (intersectLists (groups ++ [ "default" ]) attrs.groups) != [ ];
+
+  # remove local gems
+  notLocalGems = attrs: attrs.source.type != "path";
 }

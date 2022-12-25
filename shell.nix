@@ -8,5 +8,6 @@ let
     rubyEnv;
 in
 pkgs.mkShell {
-  buildInputs = [ rubyEnv rubyEnv.ruby ];
+  buildInputs = [ rubyEnv rubyEnv.ruby ] ++
+    (with pkgs; [ rnix-lsp nixfmt bundix ]);
 }

@@ -28,3 +28,5 @@ group :development do
   # gem "spring"
 end
 
+# A phony gem used to test local gem in bundler
+gem "phony_gem", path: "lib/phony_gem"

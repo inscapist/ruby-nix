@@ -385,6 +385,15 @@
     };
     version = "1.13.10";
   };
+  phony_gem = {
+    groups = ["default"];
+    platforms = [];
+    source = {
+      path = lib/phony_gem;
+      type = "path";
+    };
+    version = "0.1.0";
+  };
   puma = {
     dependencies = ["nio4r"];
     groups = ["default"];

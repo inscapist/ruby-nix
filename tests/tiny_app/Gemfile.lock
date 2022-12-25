@@ -1,3 +1,8 @@
+PATH
+  remote: lib/phony_gem
+  specs:
+    phony_gem (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -165,6 +170,7 @@ PLATFORMS
 
 DEPENDENCIES
   debug
+  phony_gem!
   puma (~> 5.0)
   rails (~> 7.0.4)
   sprockets-rails
@@ -175,4 +181,4 @@ RUBY VERSION
    ruby 2.7.6p219
 
 BUNDLED WITH
-   2.1.4
+   2.3.26
