@@ -5,7 +5,7 @@
 , name
 , ruby
 , bundler
-, gems
+, gempaths
 , groups
 , extraSetup
 , ...
@@ -18,13 +18,13 @@ let
       "${ruby}/bin/ruby" \
       "$out/${ruby.gemPath}" \
       "${bundler}/${ruby.gemPath}/gems/bundler-${bundler.version}" \
-      ${lib.escapeShellArg gems} \
+      ${lib.escapeShellArg gempaths} \
       ${lib.escapeShellArg groups}
   '';
   envArgs = {
     inherit name;
 
-    paths = gems;
+    paths = gempaths;
     pathsToLink = [ "/lib" ]; # /bin is created in postBuild
 
     postBuild = mkBinStubs

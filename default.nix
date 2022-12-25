@@ -20,17 +20,19 @@
 }:
 
 let
-  bundler = tools.bundler.override (attrs: { inherit ruby; });
-in
-rec {
   requirements = (tools // {
-    inherit name ruby bundler gems
+    inherit name ruby bundler gempaths
       gemConfig groups document extraSetup;
     gemset =
       if builtins.typeOf gemset != "set"
       then import gemset else gemset;
   });
-  builtGems = import ./modules/gems requirements;
+
+  gems = import ./modules/gems requirements;
+  gempaths = lib.attrValues gems;
+in
+rec {
+  inherit gems;
   rubyEnv = import ./modules/ruby-env requirements;
-  gems = lib.attrValues builtGems ++ [ bundler ];
+  ruby = rubyEnv.ruby;
 }
