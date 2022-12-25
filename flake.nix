@@ -9,8 +9,6 @@
         description = "A flake that drives a simple ruby app";
       };
     };
-    # in the app directory, run:
-    #   nix flake init -t github:sagittaros/ruby-nix
     templates.default = self.templates.simple-app;
   };
 }

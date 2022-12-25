@@ -4,6 +4,14 @@ This is technically a fork of `bundlerEnv`. However, unlike `bundlerEnv`, it aim
 
 ## Usage
 
+With nix [installed](/docs/nix-installation.md) and optionally [direnv](/docs/direnv.md), you can run:
+
+``` sh
+cd myapp
+nix flake init -t github:sagittaros/ruby-nix
+nix develop -c zsh
+```
+
 ## Credits
 
 All credits goes to the original authors of `buildRubyGem`, `builderEnv`, and `bundix`. This is only a thin layer with a different take on top of these solid foundation.
