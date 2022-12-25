@@ -1,0 +1,9 @@
+# https://numtide.github.io/devshell
+[[commands]]
+package = "devshell.cli"
+help = "Per project developer environments"
+
+# https://github.com/numtide/devshell/blob/master/docs/getting_started.md#adding-environment-variables
+[[env]]
+name = "RAILS_ENV"
+value = "development"

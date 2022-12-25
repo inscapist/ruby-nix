@@ -3,9 +3,10 @@
   inputs = {
     nixpkgs.url = "nixpkgs";
     ruby-nix.url = "github:sagittaros/ruby-nix";
+    devshell.url = "github:numtide/devshell";
     flake-utils.url = "github:numtide/flake-utils";
   };
-  outputs = { self, nixpkgs, ruby-nix, flake-utils }:
+  outputs = { self, nixpkgs, ruby-nix, devshell, flake-utils }:
     flake-utils.lib.eachSystem [
       "aarch64-darwin"
       "x86_64-darwin"
@@ -13,7 +14,10 @@
     ]
       (system:
         let
-          pkgs = import nixpkgs { inherit system; };
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [ devshell.overlay ];
+          };
           rubyNix = import ruby-nix pkgs;
 
           inherit (rubyNix {
@@ -24,9 +28,10 @@
         {
           devShells = rec {
             default = dev;
-            dev = pkgs.mkShell {
-              buildInputs = [ env ];
-            };
+            dev = with pkgs.devshell;
+              mkShell {
+                imports = [ (importTOML ./devshell.toml) ];
+              };
           };
         });
 }
