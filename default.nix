@@ -7,22 +7,24 @@
 , defaultGemConfig
 , buildRubyGem
 , ...
-}@tools:
+}@pkgs:
 
 # this is where we specify how the ruby environment should be built
 { name ? "ruby-nix" # passed along to buildEnv
 , gemset # path to gemset.nix or its content
-, ruby ? tools.ruby # allow ruby to be overriden
+, ruby ? pkgs.ruby # allow ruby to be overriden
 , gemConfig ? defaultGemConfig # specific build instructions for native gems
 , groups ? null # null or a list of groups, used by Bundler.setup
 , document ? [ ] # e.g. [ "ri" "rdoc" ]
-, extraSetup ? null # additional setup script goes here
+, extraRubySetup ? null # additional setup script goes here
 }:
 
 let
-  requirements = (tools // {
-    inherit name ruby bundler gempaths
-      gemConfig groups document extraSetup;
+  my = import ./mylib.nix pkgs;
+
+  requirements = (pkgs // {
+    inherit my name ruby bundler gempaths
+      gemConfig groups document extraRubySetup;
     gemset =
       if builtins.typeOf gemset != "set"
       then import gemset else gemset;
@@ -33,6 +35,6 @@ let
 in
 rec {
   inherit gems;
-  rubyEnv = import ./modules/ruby-env requirements;
-  ruby = rubyEnv.ruby;
+  inherit (import ./modules/ruby-env requirements) env envMinimal;
+  ruby = env.ruby;
 }

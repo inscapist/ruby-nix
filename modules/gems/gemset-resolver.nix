@@ -1,6 +1,7 @@
 { lib, ruby, groups }:
 rec {
-  inherit (lib) attrValues concatMap converge filterAttrs getAttrs intersectLists;
+  inherit (lib) attrValues concatMap converge
+    filterAttrs getAttrs intersectLists;
 
   # TODO filter gemAttrs.type == "path"
   # strictlyMatched is a smaller set that meets all the gem conditions.
@@ -13,7 +14,8 @@ rec {
 
       expandDependencies = gems:
         let
-          depNames = concatMap (gem: gem.dependencies or [ ]) (attrValues gems);
+          depNames = concatMap (gem: gem.dependencies or [ ])
+            (attrValues gems);
           deps = getAttrs depNames allowedGems;
         in
         gems // deps;

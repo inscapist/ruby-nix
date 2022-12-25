@@ -16,31 +16,18 @@
         let
           pkgs = import nixpkgs { inherit system; };
           rubyNix = import ruby-nix pkgs;
-          shell = cmd: path: pkgs.writeShellScriptBin cmd
-            (builtins.readFile path);
 
           inherit (rubyNix {
             name = "simple-ruby-app";
-            gemset = ./nix/gemset.nix;
-          }) rubyEnv ruby;
+            gemset = ./gemset.nix;
+          }) env envMinimal;
 
-          # run `update-gems` in nix shell
-          updateGems = shell "update-gems" ./nix/update-gems.sh;
         in
         rec {
           devShells = rec {
             default = dev;
-            # nix develop -c zsh
             dev = pkgs.mkShell {
-              buildInputs = [ rubyEnv ruby updateGems pkgs.bundix ];
-
-              # TODO remove this
-              shellHook = ''
-                echo To use your own Gemfile:
-                echo  1. replace Gemfile with your own
-                echo  2. nix develop -c zsh # if not already in the nix shell
-                echo  3. update-gems
-              '';
+              buildInputs = [ env ];
             };
           };
         });

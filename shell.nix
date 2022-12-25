@@ -4,9 +4,9 @@ let
   inherit (rubyNix {
     name = "rubynix-test";
     gemset = ./tests/tiny_app/gemset.nix;
-  }) rubyEnv ruby;
+  }) env;
 in
 pkgs.mkShell {
-  buildInputs = [ rubyEnv ruby ] ++
-    (with pkgs; [ rnix-lsp nixfmt bundix ]);
+  buildInputs = [ env ] ++
+    (with pkgs; [ rnix-lsp nixfmt ]);
 }

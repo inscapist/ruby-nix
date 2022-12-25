@@ -21,7 +21,7 @@ If you are a [direnv](/docs/direnv.md) user, simply run `direnv allow`. Otherwis
 
 #### 3. In nix shell
 
-Run `update-gems` to generate gemset. Binstubs will already be accessible, running `rspec` will be equivalent to running `bundle exec rspec`, for example.
+Replace `Gemfile` and run `generate-gemset` to generate the gemset. This would generate bundler's binstubs so that running `rspec` is equivalent to `bundle exec rspec`. Currently, platform specific gems are [not yet supported](https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/ruby.section.md#platform-specific-gems) and the platform is forced to be ruby.
 
 ## Credits
 
