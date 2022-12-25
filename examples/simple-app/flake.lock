@@ -38,11 +38,11 @@
     },
     "ruby-nix": {
       "locked": {
-        "lastModified": 1671957294,
-        "narHash": "sha256-CFFJxP9dm1EZ4e/rfwKopBp8YdAoSMn2217iaYZQbiA=",
+        "lastModified": 1671958495,
+        "narHash": "sha256-CzqkhSPTJdMgLZyNXz1UWVPDq1YcvJX2T/A25WJ/PP0=",
         "owner": "sagittaros",
         "repo": "ruby-nix",
-        "rev": "f7d2fdb5da5833bf8366b8b53c237ab63f26217c",
+        "rev": "c1e39ceb1224cb1c2f5838fcdedc9d325fc7781e",
         "type": "github"
       },
       "original": {
