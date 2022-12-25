@@ -37,8 +37,8 @@
               # TODO remove this
               shellHook = ''
                 echo To use your own Gemfile:
-                echo  1. replace Gemfile and Gemfile.lock with your own
-                echo  2. nix develop -c zsh
+                echo  1. replace Gemfile with your own
+                echo  2. nix develop -c zsh # if not already in the nix shell
                 echo  3. update-gems
               '';
             };

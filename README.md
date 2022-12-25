@@ -9,6 +9,7 @@ With nix [installed](/docs/nix-installation.md) and optionally [direnv](/docs/di
 ``` sh
 cd myapp
 nix flake init -t github:sagittaros/ruby-nix
+update-gems
 nix develop -c zsh
 ```
 
