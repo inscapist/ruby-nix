@@ -16,6 +16,8 @@
         let
           pkgs = import nixpkgs { inherit system; };
           rubyNix = import ruby-nix pkgs;
+          shell = cmd: path: pkgs.writeShellScriptBin cmd
+            (builtins.readFile path);
 
           inherit (rubyNix {
             name = "simple-ruby-app";
@@ -23,12 +25,7 @@
           }) rubyEnv ruby;
 
           # run `update-gems` in nix shell
-          updateGems = with pkgs;
-            writeScriptBin "update-gems" (builtins.readFile (substituteAll {
-              src = ./nix/update-gems.sh;
-              bundix = "${bundix}/bin/bundix";
-              bundler = "${ruby}/bin/bundler";
-            }));
+          updateGems = shell "update-gems" ./nix/update-gems.sh;
         in
         rec {
           devShells = rec {
