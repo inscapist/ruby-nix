@@ -3,6 +3,7 @@
 , my
 , mybundix
 , ruby
+, bundler
 , buildEnv
 , name
 , gemPlatforms
@@ -13,6 +14,7 @@ let
   rubyEnv = import ./ruby-env.nix args;
 
   extras = [
+    bundler
     mybundix
     (my.shell "generate-gemset" ./generate-gemset.sh
       { platforms = builtins.concatStringsSep " " gemPlatforms; })
