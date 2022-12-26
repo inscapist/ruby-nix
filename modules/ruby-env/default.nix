@@ -1,10 +1,10 @@
 { stdenv
 , lib
 , my
+, mybundix
 , ruby
 , buildEnv
 , name
-, bundix
 , ...
 }@args:
 
@@ -12,7 +12,7 @@ let
   rubyEnv = import ./ruby-env.nix args;
 
   extras = [
-    bundix
+    mybundix
     (my.shell "generate-gemset" ./generate-gemset.sh)
   ];
 

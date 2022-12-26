@@ -1,0 +1,27 @@
+{
+  "nodes": {
+    "bundix": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1672023024,
+        "narHash": "sha256-1iSKlgA9jiRo5oB7Y8mCxBpfy8W38tvaUtSNNPbWjgA=",
+        "owner": "sagittaros",
+        "repo": "bundix",
+        "rev": "ae1e7f308b2ad873703e174a9f4721dc23f3c2f7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sagittaros",
+        "repo": "bundix",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "bundix": "bundix"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
