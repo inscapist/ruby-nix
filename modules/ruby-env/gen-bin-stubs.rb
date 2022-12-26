@@ -30,7 +30,6 @@ gems.each do |path|
 # this file is here to facilitate running it.
 #
 
-require 'bundler'
 # Monkey-patch out the check that Bundler performs to determine
 # whether the bundler env is writable. It's not writable, even for
 # root! And for this use of Bundler, it shouldn't be necessary since
@@ -54,6 +53,8 @@ def bundler_setup!
   ENV['BUNDLE_IGNORE_CONFIG'] = '1'
 
   $LOAD_PATH.unshift #{File.join(bundler_path, "/lib").dump}
+
+  require 'bundler'
   Bundler.setup(#{groups.map(&:dump).join(', ')})
 end
 
