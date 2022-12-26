@@ -48,7 +48,7 @@ let
 
   rubyEnv = buildEnv {
     name = "${name}-ruby-env";
-    paths = gempaths;
+    paths = gempaths ++ [ bundler ];
     pathsToLink = [ "/lib" ];
     postBuild = mkBinStubs
       + lib.optionalString (extraRubySetup != null) extraRubySetup;
