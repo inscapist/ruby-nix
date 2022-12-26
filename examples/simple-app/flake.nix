@@ -14,7 +14,7 @@
       (system:
         let
           pkgs = import nixpkgs { inherit system; };
-          rubyNix = import ruby-nix pkgs;
+          rubyNix = ruby-nix.lib pkgs;
 
           inherit (rubyNix {
             name = "simple-ruby-app";
