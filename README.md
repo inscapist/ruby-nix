@@ -13,23 +13,25 @@ This flake exports a function `rubyNix` that is suitable for local development (
 ## Usage gist
 
 ``` nix
-    let
-        pkgs = import nixpkgs { inherit system; };
-        rubyNix = ruby-nix.lib pkgs;
+let
+    pkgs = import nixpkgs { inherit system; };
+    rubyNix = ruby-nix.lib pkgs;
 
-        inherit (rubyNix {
+    inherit (rubyNix {
         name = "simple-ruby-app";
         gemset = ./gemset.nix;
+        # run `bundle platform` to find your platform
         gemPlatforms = [ "ruby" "arm64-darwin-20" "x86_64-linux" ];
-        }) env envMinimal; 
-    in
-    {
-        devShells = rec {
+    }) env envMinimal; 
+in
+{
+    devShells = rec {
         default = dev;
         dev = pkgs.mkShell {
             buildInputs = [ env ];
         };
     };
+}
 ```
 
 ## Usage
@@ -40,7 +42,7 @@ With nix [installed](/docs/nix-installation.md) and optionally [direnv](/docs/di
 
 ``` sh
 cd myapp
-nix flake init -t github:sagittaros/ruby-nix
+nix flake init -t github:sagittaros/ruby-nix my-new-app
 ```
 
 #### 2. Enter nix shell
@@ -53,6 +55,6 @@ Replace `Gemfile` and run `generate-gemset`. ~~Currently, platform specific gems
 
 ## Credits
 
-All credits goes to the original authors of `buildRubyGem`, `builderEnv`, and `bundix`. This is only a thin layer with a different take on top of these solid foundation.
+All credits goes to the original authors of `buildRubyGem`, `bundlerEnv`, and `bundix`. This is only a thin layer with a different take on top of these solid foundation.
 
 PRs welcomed :)
