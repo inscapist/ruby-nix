@@ -57,11 +57,11 @@
         "bundix": "bundix"
       },
       "locked": {
-        "lastModified": 1672061739,
-        "narHash": "sha256-RM4L1M3jMhyEDZo4xwTUdxSapeJW+M1sHX794xmUqH0=",
+        "lastModified": 1672063167,
+        "narHash": "sha256-cVkKIXaoblqM7A3bcRFCtnJdiaWRiDpDdaJVD78jnkw=",
         "owner": "sagittaros",
         "repo": "ruby-nix",
-        "rev": "97f1f0a8892d0591efc08c6891cc19a957e229b8",
+        "rev": "5e22042ce8ae6fa9524a632efa333c4fa38c4658",
         "type": "github"
       },
       "original": {
