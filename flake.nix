@@ -15,6 +15,10 @@
         path = ./examples/simple-app;
         description = "A flake that drives a simple ruby app";
       };
+      docker-app = {
+        path = ./examples/docker-app;
+        description = "A flake that builds docker image";
+      };
     };
     templates.default = self.templates.simple-app;
 

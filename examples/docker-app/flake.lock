@@ -1,0 +1,76 @@
+{
+  "nodes": {
+    "bundix": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1672023024,
+        "narHash": "sha256-1iSKlgA9jiRo5oB7Y8mCxBpfy8W38tvaUtSNNPbWjgA=",
+        "owner": "sagittaros",
+        "repo": "bundix",
+        "rev": "ae1e7f308b2ad873703e174a9f4721dc23f3c2f7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sagittaros",
+        "repo": "bundix",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1667395993,
+        "narHash": "sha256-nuEHfE/LcWyuSWnS8t12N1wc105Qtau+/OdUAjtQ0rA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "5aed5285a952e0b949eb3ba02c12fa4fcfef535f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1671997655,
+        "narHash": "sha256-8zUwvnJrBwiFIdw9VgARj1PIQsto5Spn9J5v34b0O7A=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "aac1f0b25e6b04afad8e05dec5828f5c02398bd1",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "root": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs",
+        "ruby-nix": "ruby-nix"
+      }
+    },
+    "ruby-nix": {
+      "inputs": {
+        "bundix": "bundix"
+      },
+      "locked": {
+        "lastModified": 1672063167,
+        "narHash": "sha256-cVkKIXaoblqM7A3bcRFCtnJdiaWRiDpDdaJVD78jnkw=",
+        "owner": "sagittaros",
+        "repo": "ruby-nix",
+        "rev": "5e22042ce8ae6fa9524a632efa333c4fa38c4658",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sagittaros",
+        "repo": "ruby-nix",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

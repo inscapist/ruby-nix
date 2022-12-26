@@ -9,6 +9,7 @@ This flake exports a function `rubyNix` that is suitable for local development (
 1. supports local, path-based gems
 2. supports platform-dependant pre-compiled gems (Thanks to [@lavoiesl](https://github.com/nix-community/bundix/pull/68))
 3. bundix and bundler out of the box
+4. 2 flake templates, a basic app and a docker image example
 
 ## Usage gist
 
@@ -34,7 +35,7 @@ in
 }
 ```
 
-## Usage
+## Dev usage
 
 With nix [installed](/docs/nix-installation.md) and optionally [direnv](/docs/direnv.md), you can run:
 
@@ -52,6 +53,15 @@ If you are a [direnv](/docs/direnv.md) user, simply run `direnv allow`. Otherwis
 #### 3. In nix shell
 
 Replace `Gemfile` and run `generate-gemset`. ~~Currently, platform specific gems are [not yet supported](https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/ruby.section.md#platform-specific-gems) and the platform is forced to be ruby.~~ It is supported now! 
+
+## Building a Docker image
+
+``` sh
+nix flake init -t sagittaros/ruby-nix#docker-app
+nix build
+docker load < result
+docker images
+```
 
 ## Credits
 
