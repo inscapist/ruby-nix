@@ -25,12 +25,16 @@ let
   bundler = pkgs.bundler.override { inherit ruby; };
   mybundix = import bundix { inherit pkgs ruby bundler; };
 
+
   requirements = (pkgs // {
     inherit my name ruby bundler mybundix gempaths
       gemConfig groups document extraRubySetup;
     gemset =
-      if builtins.typeOf gemset != "set"
-      then import gemset else gemset;
+      if builtins.typeOf gemset == "set"
+      then gemset
+      else
+        (if builtins.pathExists gemset then
+          import gemset else { });
   });
 
   gems = import ./modules/gems requirements;

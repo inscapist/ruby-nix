@@ -526,10 +526,10 @@
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
-      sha256 = "009124l2yw7csrq3mvzffjflgpqi3y30flazjqf6aad64gnnnksx";
+      sha256 = "129g2mjrfpa71298q72s0fiyssf9pv5nicdipv8ijjks50wiba98";
       type = "gem";
     };
-    version = "1.5.4";
+    version = "1.5.4-x86_64-linux";
   };
   thor = {
     groups = ["default"];

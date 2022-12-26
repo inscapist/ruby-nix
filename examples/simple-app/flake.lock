@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "bundix": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1672023024,
+        "narHash": "sha256-1iSKlgA9jiRo5oB7Y8mCxBpfy8W38tvaUtSNNPbWjgA=",
+        "owner": "sagittaros",
+        "repo": "bundix",
+        "rev": "ae1e7f308b2ad873703e174a9f4721dc23f3c2f7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sagittaros",
+        "repo": "bundix",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "locked": {
         "lastModified": 1667395993,
@@ -17,11 +33,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1671877799,
-        "narHash": "sha256-jjC0NtPOT4huSwyichdrKHVCjuGr1al7Wu6PcHo5XZs=",
+        "lastModified": 1671997655,
+        "narHash": "sha256-8zUwvnJrBwiFIdw9VgARj1PIQsto5Spn9J5v34b0O7A=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "8351f271f85dae1ee28269028acde661e60394dd",
+        "rev": "aac1f0b25e6b04afad8e05dec5828f5c02398bd1",
         "type": "github"
       },
       "original": {
@@ -37,12 +53,15 @@
       }
     },
     "ruby-nix": {
+      "inputs": {
+        "bundix": "bundix"
+      },
       "locked": {
-        "lastModified": 1671979157,
-        "narHash": "sha256-kP3aOs7Gr8p4bBxaiKlUwTxuXEE7nAhVmd4wDe7inoY=",
+        "lastModified": 1672025466,
+        "narHash": "sha256-t+6ZRUgkQThBb+SaSS/MWdp4ol8L6TTORbtl1iOm6i0=",
         "owner": "sagittaros",
         "repo": "ruby-nix",
-        "rev": "77f3bd35982c5a7884765b0c47ac1764dd9055c3",
+        "rev": "6173b577b1ac6b334217ab5b08bb4c7949bb313e",
         "type": "github"
       },
       "original": {
