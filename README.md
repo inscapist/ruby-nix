@@ -2,7 +2,35 @@
 
 This is technically a fork of `bundlerEnv` that attempts to better meet the needs of ruby app developers instead of package maintainers.
 
-This flake exports a function `rubyNix` that is suitable for local development (eg. Rails) with local Gemfile and local gems.
+This flake exports a function `rubyNix` that is suitable for local development (eg. Rails).
+
+## Features
+
+1. supports local, path-based gems
+2. supports platform-dependant pre-compiled gems (Thanks to [@lavoiesl](https://github.com/nix-community/bundix/pull/68))
+3. bundix and bundler out of the box
+
+## Usage gist
+
+``` nix
+    let
+        pkgs = import nixpkgs { inherit system; };
+        rubyNix = ruby-nix.lib pkgs;
+
+        inherit (rubyNix {
+        name = "simple-ruby-app";
+        gemset = ./gemset.nix;
+        gemPlatforms = [ "ruby" "arm64-darwin-20" "x86_64-linux" ];
+        }) env envMinimal; 
+    in
+    {
+        devShells = rec {
+        default = dev;
+        dev = pkgs.mkShell {
+            buildInputs = [ env ];
+        };
+    };
+```
 
 ## Usage
 
@@ -21,7 +49,7 @@ If you are a [direnv](/docs/direnv.md) user, simply run `direnv allow`. Otherwis
 
 #### 3. In nix shell
 
-Replace `Gemfile` and run `generate-gemset` to generate the gemset. This would generate bundler's binstubs so that running `rspec` is equivalent to `bundle exec rspec`. Currently, platform specific gems are [not yet supported](https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/ruby.section.md#platform-specific-gems) and the platform is forced to be ruby.
+Replace `Gemfile` and run `generate-gemset`. ~~Currently, platform specific gems are [not yet supported](https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/ruby.section.md#platform-specific-gems) and the platform is forced to be ruby.~~ It is supported now! 
 
 ## Credits
 
