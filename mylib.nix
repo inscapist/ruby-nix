@@ -1,8 +1,14 @@
-{ writeShellScriptBin, ... }:
+{ writeShellScriptBin
+, substituteAll
+, ...
+}:
 {
-  shell = cmd: path:
-    writeShellScriptBin cmd
-      (builtins.readFile path);
+  shell = cmd: path: vars:
+    let
+      file = substituteAll ({ src = path; } // vars);
+      content = (builtins.readFile file);
+    in
+    writeShellScriptBin cmd content;
 
   applyConfig = config: attrs:
     (if config ? ${attrs.gemName}

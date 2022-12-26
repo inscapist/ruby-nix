@@ -7,7 +7,7 @@ if [ -f ./Gemfile ]; then
     # BUNDLE_FORCE_RUBY_PLATFORM=1 bundle lock
 
     bundix --lock
-    bundle lock --add-platform ruby
+    bundle lock --add-platform @platforms@
     bundix
     echo "Generated gemset.nix"
 else

@@ -112,6 +112,8 @@ GEM
     nokogiri (1.13.10)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
+    nokogiri (1.13.10-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.13.10-x86_64-linux)
       racc (~> 1.4)
     puma (5.6.5)
@@ -158,17 +160,21 @@ GEM
       sprockets (>= 3.0.0)
     sqlite3 (1.5.4)
       mini_portile2 (~> 2.8.0)
+    sqlite3 (1.5.4-arm64-darwin)
     sqlite3 (1.5.4-x86_64-linux)
     thor (1.2.1)
     timeout (0.3.1)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2022.7)
+      tzinfo (>= 1.0.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     zeitwerk (2.6.6)
 
 PLATFORMS
+  arm64-darwin-20
   ruby
   x86_64-linux
 

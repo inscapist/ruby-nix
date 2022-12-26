@@ -5,6 +5,7 @@
 , ruby
 , buildEnv
 , name
+, gemPlatforms
 , ...
 }@args:
 
@@ -13,7 +14,8 @@ let
 
   extras = [
     mybundix
-    (my.shell "generate-gemset" ./generate-gemset.sh)
+    (my.shell "generate-gemset" ./generate-gemset.sh
+      { platforms = builtins.concatStringsSep " " gemPlatforms; })
   ];
 
   # useful for development
