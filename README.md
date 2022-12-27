@@ -7,11 +7,11 @@ This flake exports a function `rubyNix` that is suitable for local development (
 ## Features
 
 1. supports local, path-based gems
-2. supports platform-dependant pre-compiled gems (see [this discussion](https://github.com/nix-community/bundix/pull/68))
+2. supports pre-compiled native gems on multiple platforms (see [this discussion](https://github.com/nix-community/bundix/pull/68))
 3. bundix and bundler out of the box
-4. 2 flake templates, a basic app and a docker image example
+4. Two starter templates based on flakes
 
-## Usage gist
+## The gist
 
 ``` nix
 let
@@ -35,7 +35,7 @@ in
 }
 ```
 
-## Dev usage
+## Usage
 
 With nix [installed](/docs/nix-installation.md) and optionally [direnv](/docs/direnv.md), you can run:
 
@@ -43,7 +43,7 @@ With nix [installed](/docs/nix-installation.md) and optionally [direnv](/docs/di
 
 ``` sh
 cd myapp
-nix flake init -t github:sagittaros/ruby-nix my-new-app
+nix flake init -t github:sagittaros/ruby-nix
 ```
 
 #### 2. Enter nix shell
