@@ -1,4 +1,6 @@
-{ pkgs ? import <nixpkgs> { }
+{ pkgs ? import <nixpkgs> {
+    overlays = [ (import ./modules/overlays/ruby-overlay.nix) ];
+  }
 , bundix
 }:
 let

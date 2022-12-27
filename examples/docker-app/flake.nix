@@ -13,7 +13,10 @@
     ]
       (system:
         let
-          pkgs = import nixpkgs { inherit system; };
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [ ruby-nix.overlays.ruby ];
+          };
           rubyNix = ruby-nix.lib pkgs;
 
           inherit (rubyNix {
