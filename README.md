@@ -7,7 +7,7 @@ This flake exports a function `rubyNix` that is suitable for local development (
 ## Features
 
 1. supports local, path-based gems
-2. supports platform-dependant pre-compiled gems (Thanks to [@lavoiesl](https://github.com/nix-community/bundix/pull/68))
+2. supports platform-dependant pre-compiled gems (see [this discussion](https://github.com/nix-community/bundix/pull/68))
 3. bundix and bundler out of the box
 4. 2 flake templates, a basic app and a docker image example
 
@@ -65,6 +65,6 @@ docker images
 
 ## Credits
 
-All credits goes to the original authors of `buildRubyGem`, `bundlerEnv`, and `bundix`. This is only a thin layer with a different take on top of these solid foundation.
+All credits goes to the original authors of `buildRubyGem`, `bundlerEnv`, and `bundix` (@manveru, @lavoiesl, @jdelStrother). This is only a thin layer with a different take on top of these solid foundation. 
 
 PRs welcomed :)
