@@ -11,6 +11,12 @@ This flake exports a function `rubyNix` that is suitable for local development (
 3. bundix and bundler out of the box
 4. Two starter templates based on flakes
 
+## How is it different from bundlerEnv?
+
+1. it does not track the entire directory as `inputSrc` when `gemDir` is specified, requiring only the `gemset.nix`.
+2. it does not use `BUNDLE_GEMFILE` variable.
+3. it works without `Gemfile` and `Gemfile.lock`.
+
 ## The gist
 
 ``` nix
