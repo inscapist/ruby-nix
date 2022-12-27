@@ -3,7 +3,6 @@ rec {
   inherit (lib) attrValues concatMap converge
     filterAttrs getAttrs intersectLists;
 
-  # TODO filter gemAttrs.type == "path"
   # strictlyMatched is a smaller set that meets all the gem conditions.
   # with converge, we expand it to make sure that all dependencies(closure) are met
   resolveGemset = gemset:
