@@ -5,6 +5,7 @@
 , name
 , ruby
 , bundler
+, useGemBundler
 , gempaths
 , groups
 , extraRubySetup
@@ -48,7 +49,7 @@ let
 
   rubyEnv = buildEnv {
     name = "${name}-ruby-env";
-    paths = gempaths ++ [ bundler ];
+    paths = gempaths ++ lib.optional (!useGemBundler) bundler;
     pathsToLink = [ "/lib" ];
     postBuild = mkBinStubs
       + lib.optionalString (extraRubySetup != null) extraRubySetup;

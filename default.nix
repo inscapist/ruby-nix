@@ -23,11 +23,16 @@ bundix:
 
 let
   my = import ./mylib.nix pkgs;
-  bundler = pkgs.bundler.override { inherit ruby; };
   mybundix = import bundix { inherit pkgs ruby bundler; };
 
+  useGemBundler = builtins.hasAttr "bundler" gems;
+
+  bundler =
+    if useGemBundler then gems.bundler
+    else pkgs.bundler.override (attrs: { inherit ruby; });
+
   requirements = (pkgs // {
-    inherit my name ruby bundler mybundix gempaths
+    inherit my name ruby bundler mybundix gempaths useGemBundler
       gemConfig gemPlatforms groups document extraRubySetup;
     gemset =
       if builtins.typeOf gemset == "set"
