@@ -48,11 +48,18 @@ nix flake init -t github:sagittaros/ruby-nix my-new-app
 
 #### 2. Enter nix shell
 
-If you are a [direnv](/docs/direnv.md) user, simply run `direnv allow`. Otherwise, run `nix develop -c zsh`.
+If you are a [direnv](/docs/direnv.md) user, add the following content to `.envrc` and run `direnv allow`. Otherwise, run `nix develop -c zsh`.
+
+```
+if ! has nix_direnv_version || ! nix_direnv_version 2.2.0; then
+  source_url "https://raw.githubusercontent.com/nix-community/nix-direnv/2.2.0/direnvrc" "sha256-5EwyKnkJNQeXrRkYbwwRBcXbibosCJqyIUuz9Xq+LRc="
+fi
+use flake
+```
 
 #### 3. In nix shell
 
-Replace `Gemfile` and run `generate-gemset`. ~~Currently, platform specific gems are [not yet supported](https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/ruby.section.md#platform-specific-gems) and the platform is forced to be ruby.~~ It is supported now! 
+Replace `Gemfile` and `Gemfile.lock` with your own and run `generate-gemset`. Otherwise, use `relock-gems` to generate both `Gemfile.lock` and `gemset.nix`.
 
 ## Building a Docker image
 
@@ -62,6 +69,7 @@ nix build
 docker load < result
 docker images
 ```
+
 
 ## Credits
 
