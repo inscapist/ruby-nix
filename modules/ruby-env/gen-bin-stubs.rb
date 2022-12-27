@@ -30,6 +30,9 @@ gems.each do |path|
 # this file is here to facilitate running it.
 #
 
+Gem.paths = { 'GEM_HOME' => #{gem_path.dump} }
+require 'bundler'
+
 # Monkey-patch out the check that Bundler performs to determine
 # whether the bundler env is writable. It's not writable, even for
 # root! And for this use of Bundler, it shouldn't be necessary since
@@ -45,8 +48,6 @@ module Bundler
   end
 end
 
-Gem.paths = { 'GEM_HOME' => #{gem_path.dump} }
-
 def bundler_setup!
   ENV.delete 'BUNDLE_PATH'
   ENV['BUNDLE_FROZEN'] = '1'
@@ -54,7 +55,6 @@ def bundler_setup!
 
   $LOAD_PATH.unshift #{File.join(bundler_path, "/lib").dump}
 
-  require 'bundler'
   Bundler.setup(#{groups.map(&:dump).join(', ')})
 end
 
