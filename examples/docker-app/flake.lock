@@ -3,11 +3,11 @@
     "bundix": {
       "flake": false,
       "locked": {
-        "lastModified": 1672023024,
-        "narHash": "sha256-1iSKlgA9jiRo5oB7Y8mCxBpfy8W38tvaUtSNNPbWjgA=",
+        "lastModified": 1672136099,
+        "narHash": "sha256-p7VCfdFKljQfLNbTH7XqwSNyaEI1K/anF79xeeShxec=",
         "owner": "sagittaros",
         "repo": "bundix",
-        "rev": "ae1e7f308b2ad873703e174a9f4721dc23f3c2f7",
+        "rev": "5323f42f0c5d57222f824e62e12391a26c14e696",
         "type": "github"
       },
       "original": {
@@ -57,11 +57,11 @@
         "bundix": "bundix"
       },
       "locked": {
-        "lastModified": 1672129254,
-        "narHash": "sha256-Isfmq+BaMKkYgzvrsbAgAIwTiwlN5a0120kbjs6xWMw=",
+        "lastModified": 1672136370,
+        "narHash": "sha256-3Ht23oZJjMK05LRzSwzXcR+sR4Ypgpma1oazqnhlfNo=",
         "owner": "sagittaros",
         "repo": "ruby-nix",
-        "rev": "9aa7b9e38df12f982faa5bc7a9488009c60ab4a0",
+        "rev": "93bd7ae437b7b60abe5575334ebd290dd5d92f4c",
         "type": "github"
       },
       "original": {
