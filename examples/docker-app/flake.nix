@@ -29,9 +29,21 @@
           dockerImage = pkgs.dockerTools.buildImage {
             name = "ruby-app-image";
             tag = "latest";
+            # /// Uncomment below to use alpine image that provides more utilities such as `ps`, `hostname`, ...
+            # /// This can be generated with `nix-prefetch-docker`
+            #
+            # fromImage = pkgs.dockerTools.pullImage {
+            #   imageName = "alpine";
+            #   imageDigest = "sha256:8914eb54f968791faf6a8638949e480fef81e697984fba772b3976835194c6d4";
+            #   sha256 = "0mn4hr0cpwa8g45djnivmky3drdvsb38r65hlbx9l88i5p8qhld6";
+            #   finalImageName = "alpine";
+            #   finalImageTag = "latest";
+            # };
+            #
             copyToRoot = pkgs.buildEnv {
               name = "ruby-docker-env";
-              paths = [ ./. env ] ++ (with pkgs; [ which bash coreutils ]);
+              paths = with pkgs.lib; [ (cleanSource ./.) env ] ++
+                (with pkgs; [ which bash coreutils ]);
               pathsToLink = [ "/" ];
             };
             config = {
