@@ -70,7 +70,8 @@ Replace `Gemfile` and `Gemfile.lock` with your own and run `generate-gemset`. Ot
 ## Building a Docker image
 
 ``` sh
-nix flake init -t sagittaros/ruby-nix#docker-app
+cd someapp
+nix flake init -t github:sagittaros/ruby-nix#docker-app
 nix build
 docker load < result
 docker images
