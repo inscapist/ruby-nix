@@ -26,6 +26,9 @@ let
     inherit name;
     paths = [ rubyEnv (lib.lowPrio rubyEnv.ruby) ] ++ extras;
     pathsToLink = [ "/" ];
+    passthru = {
+      ruby = rubyEnv.ruby;
+    };
     meta = {
       platforms = ruby.meta.platforms;
     };
