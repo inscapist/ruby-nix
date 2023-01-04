@@ -8,7 +8,6 @@ let
   inherit (rubyNix {
     name = "rubynix-test";
     gemset = ./tests/tiny_app/gemset.nix;
-    gemPlatforms = [ "ruby" "arm64-darwin-20" "x86_64-linux" ];
   }) env envMinimal ruby;
 in
 pkgs.mkShell {

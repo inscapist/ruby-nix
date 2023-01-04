@@ -27,8 +27,6 @@ let
     inherit (rubyNix {
         name = "simple-ruby-app";
         gemset = ./gemset.nix;
-        # run `bundle platform` to find your platform
-        gemPlatforms = [ "ruby" "arm64-darwin-20" "x86_64-linux" ];
     }) env envMinimal; 
 in
 {
@@ -65,17 +63,36 @@ use flake
 
 #### 3. In nix shell
 
-Replace `Gemfile` and `Gemfile.lock` with your own and run `generate-gemset`. Otherwise, use `relock-gems` to generate both `Gemfile.lock` and `gemset.nix`.
+In a nix shell, you have `ruby`, `irb`, `bundle` at your disposal. Additional gems will only be available if they are specified in `gemset.nix`. To generate that, replace `Gemfile` and `Gemfile.lock` with your own and run `bundix`. 
 
-## Building a Docker image
+## FAQs
+
+### 1. When does my environment gets build?
+If you use direnv, running `git add gemset.nix` would trigger a rebuild automatically.
+
+Otherwise, Ctrl-D to exit the current nix shell, and enter again.
+
+
+### 2. How to `bundle`
+
+With ruby-nix, you shouldn't install gems using bundle. Nix will build the gems for you. **Always run `bundix` to update your gemset after making changes to Gemfile.lock.**
+
+#### bundle add
+run `bundle add GEM --skip-install` instead
+
+#### bundle install (after modifying Gemfile)
+run `bundle lock` instead
+
+#### Adding multiple platforms to Gemfile.lock
+
+An extreme example could be:
 
 ``` sh
-cd someapp
-nix flake init -t github:sagittaros/ruby-nix#docker-app
-nix build
-docker load < result
-docker images
+bundle lock --add-platform arm64-darwin-20 arm64-darwin-21 x86_64-darwin-20 x86_64-darwin-21 x86_64-linux
 ```
+
+You can retrieve the platform names by running `bundle platform`. Having multiple platforms would allow your colleagues to use precompiled gems, if they are available.
+
 
 ## Screencast (WIP)
 

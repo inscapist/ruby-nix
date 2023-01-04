@@ -22,7 +22,6 @@
           inherit (rubyNix {
             name = "simple-ruby-app";
             gemset = ./gemset.nix;
-            gemPlatforms = [ "ruby" "arm64-darwin-20" "x86_64-linux" ];
           }) env envMinimal;
 
           # https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/docker/examples.nix
