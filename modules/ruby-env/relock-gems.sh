@@ -1,6 +1,5 @@
 if [ -f ./Gemfile ]; then
     echo "Removing current generated files"
-    [ -e ./Gemfile.lock ] && rm ./Gemfile.lock
     [ -e ./gemset.nix ] && rm ./gemset.nix
 
     bundle lock --add-platform @platforms@
