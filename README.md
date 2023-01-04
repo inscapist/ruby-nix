@@ -73,7 +73,7 @@ If you use direnv, running `git add gemset.nix` would trigger a rebuild automati
 Otherwise, Ctrl-D to exit the current nix shell, and enter again.
 
 
-### 2. How to `bundle`
+### 2. How to `bundle`?
 
 With ruby-nix, you shouldn't install gems using bundle. Nix will build the gems for you. **Always run `bundix` to update your gemset after making changes to Gemfile.lock.**
 
@@ -95,40 +95,6 @@ You can retrieve the platform names by running `bundle platform`. Having multipl
 
 
 ## Screencast (WIP)
-
-``` sh
-/tmp
-▲ mkdir t1
-
-/tmp
-▲ cd t1
-
-/tmp/t1
-▲ nix flake init -t github:sagittaros/ruby-nix
-
-wrote: /tmp/t1/gemset.nix
-wrote: /tmp/t1/Gemfile
-wrote: /tmp/t1/Gemfile.lock
-wrote: /tmp/t1/flake.nix
-
-/tmp/t1
-▲ ls
-flake.nix  Gemfile  Gemfile.lock  gemset.nix
-
-/tmp/t1
-▲ nix develop -c zsh
-warning: creating lock file '/tmp/t1/flake.lock'
-/tmp/t1
-nix-shell ▲ irb
-irb(main):001:0> require 'puma'
-=> true
-irb(main):002:0>
-
-/tmp/t1 6s
-nix-shell ▲ rails
-Usage:
-  rails new APP_PATH [options]
-```
 
 
 ## Credits
