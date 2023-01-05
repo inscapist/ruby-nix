@@ -85,10 +85,10 @@ run `bundle lock` instead
 
 #### Adding multiple platforms to Gemfile.lock
 
-An extreme example could be:
+One example could be:
 
 ``` sh
-bundle lock --add-platform arm64-darwin-20 arm64-darwin-21 x86_64-darwin-20 x86_64-darwin-21 x86_64-linux
+bundle lock --update --add-platform ruby arm64-darwin-21 x86_64-darwin-20 x86_64-linux
 ```
 
 You can retrieve the platform names by running `bundle platform`. Having multiple platforms would allow your colleagues to use precompiled gems, if they are available.

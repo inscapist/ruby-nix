@@ -16,16 +16,23 @@ let
 
   applyGemConfig = my.applyConfig gemConfig;
 
-  finalGemAttrs = ruby: gems: name: attrs:
-    let matchingSource = lib.findFirst
-      (p:
-        if lib.hasPrefix "arm64-darwin" p.platform then ruby.stdenv.hostPlatform.system == "aarch64-darwin"
-        else if lib.hasPrefix "x86_64-darwin" p.platform then ruby.stdenv.hostPlatform.system == "x86_64-darwin"
-        else if p.platform == "x86_64-linux" then ruby.stdenv.hostPlatform.system == "x86_64-linux"
-        else false
-      )
-      attrs.source
-      (attrs.nativeSources or [ ]);
+  # XXX: Improve this code's readability
+  finalGemSpec = ruby: gems: name: attrs:
+    let matchingSource =
+      lib.findFirst
+        (p:
+          let sys = ruby.stdenv.hostPlatform.system; in
+          # to find whether there is a matching precompiled gem for this platform
+          (
+            if lib.hasPrefix "arm64-darwin" p.platform then sys == "aarch64-darwin"
+            else if lib.hasPrefix "x86_64-darwin" p.platform then sys == "x86_64-darwin"
+            else if p.platform == "x86_64-linux" then sys == "x86_64-linux"
+            else false
+          )
+        )
+        # falls back to source compilation otherwise
+        attrs.source
+        (attrs.nativeSources or [ ]);
     in
     ((removeAttrs attrs [ "platforms" "nativeSources" ]) // {
       inherit ruby;
@@ -39,7 +46,7 @@ let
     });
 
   buildGem = name: attrs:
-    buildRubyGem (finalGemAttrs ruby gems name attrs);
+    buildRubyGem (finalGemSpec ruby gems name attrs);
 
   gemset' = mapAttrs
     (name: attrs:
