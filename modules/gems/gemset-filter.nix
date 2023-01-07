@@ -5,7 +5,7 @@ rec {
 
   # strictlyMatched is a smaller set that meets all the gem conditions.
   # with converge, we expand it to make sure that all dependencies(closure) are met
-  resolveGemset = gemset:
+  filterGemset = gemset:
     let
       platformGems = filterAttrs (_: platformMatches ruby) gemset;
       allowedGems = filterAttrs (_: notLocalGems) platformGems;

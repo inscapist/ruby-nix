@@ -11,8 +11,8 @@
 
 let
   inherit (lib) mapAttrs;
-  inherit (import ./gemset-resolver.nix { inherit lib ruby groups; })
-    resolveGemset;
+  inherit (import ./gemset-filter.nix { inherit lib ruby groups; })
+    filterGemset;
 
   applyGemConfig = my.applyConfig gemConfig;
 
@@ -22,8 +22,8 @@ let
       lib.findFirst
         (p:
           let sys = ruby.stdenv.hostPlatform.system; in
-          # to find whether there is a matching precompiled gem for this platform
           (
+            # to find whether there is a matching precompiled gem for this platform
             if lib.hasPrefix "arm64-darwin" p.platform then sys == "aarch64-darwin"
             else if lib.hasPrefix "x86_64-darwin" p.platform then sys == "x86_64-darwin"
             else if p.platform == "x86_64-linux" then sys == "x86_64-linux"
@@ -53,7 +53,7 @@ let
       applyGemConfig (attrs //
         { inherit ruby document; gemName = name; })
     )
-    (resolveGemset gemset);
+    (filterGemset gemset);
 
   gems = mapAttrs buildGem gemset';
 in
