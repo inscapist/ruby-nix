@@ -18,8 +18,10 @@
             overlays = [ ruby-nix.overlays.ruby ];
           };
           rubyNix = ruby-nix.lib pkgs;
+          ruby = pkgs.ruby_3_1; # if you want to override the default ruby version
 
           inherit (rubyNix {
+            ruby = pkgs.ruby_3_1; # if you want to override the default ruby version
             name = "simple-ruby-app";
             gemset = ./gemset.nix;
           }) env envMinimal;

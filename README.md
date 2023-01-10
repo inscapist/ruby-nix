@@ -93,6 +93,10 @@ bundle lock --update --add-platform ruby arm64-darwin-21 x86_64-darwin-20 x86_64
 
 You can retrieve the platform names by running `bundle platform`. Having multiple platforms would allow your colleagues to use precompiled gems, if they are available.
 
+### 3. How to use a different ruby version
+
+`examples/simple-app/flake.nix` shows howto use ruby_3_1 insted of the
+default version (2.7.6).
 
 ## Screencast (WIP)
 
