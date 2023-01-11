@@ -24,7 +24,6 @@
     templates.default = self.templates.simple-app;
 
     # XXX impure dev shell, too lazy to configure flake-compat for bundix
-    devShells.x86_64-linux.default =
-      import ./shell.nix { inherit bundix; };
+    devShells.x86_64-linux.default = import ./shell.nix { inherit bundix; };
   };
 }

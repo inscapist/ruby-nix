@@ -1,6 +1,5 @@
 final: prev: rec {
-  rubygems = with final; import ./rubygems
-    { inherit stdenv lib fetchurl; };
+  rubygems = with final; import ./rubygems { inherit stdenv lib fetchurl; };
 
   ruby = prev.ruby.overrideAttrs (attrs: {
     postUnpack = ''

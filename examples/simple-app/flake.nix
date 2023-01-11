@@ -10,26 +10,23 @@
       "aarch64-darwin"
       "x86_64-darwin"
       "x86_64-linux"
-    ]
-      (system:
-        let
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = [ ruby-nix.overlays.ruby ];
-          };
-          rubyNix = ruby-nix.lib pkgs;
+    ] (system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ ruby-nix.overlays.ruby ];
+        };
+        rubyNix = ruby-nix.lib pkgs;
 
-          inherit (rubyNix {
-            name = "simple-ruby-app";
-            gemset = ./gemset.nix;
-          }) env envMinimal;
-        in
-        {
-          devShells = rec {
-            default = dev;
-            dev = pkgs.mkShell {
-              buildInputs = [ env ];
-            };
-          };
-        });
+        inherit (rubyNix {
+          name = "simple-ruby-app";
+          gemset = ./gemset.nix;
+        })
+          env envMinimal;
+      in {
+        devShells = rec {
+          default = dev;
+          dev = pkgs.mkShell { buildInputs = [ env ]; };
+        };
+      });
 }

@@ -1,15 +1,5 @@
-{ stdenv
-, lib
-, makeBinaryWrapper
-, buildEnv
-, name
-, ruby
-, bundler
-, gempaths
-, groups
-, extraRubySetup
-, ...
-}:
+{ stdenv, lib, makeBinaryWrapper, buildEnv, name, ruby, bundler, gempaths
+, groups, extraRubySetup, ... }:
 
 let
   # we could use substituteAll, but somehow this feels nicer
@@ -52,12 +42,7 @@ let
     pathsToLink = [ "/lib" ];
     postBuild = mkBinStubs
       + lib.optionalString (extraRubySetup != null) extraRubySetup;
-    passthru = {
-      ruby = wrappedRuby;
-    };
-    meta = {
-      platforms = ruby.meta.platforms;
-    };
+    passthru = { ruby = wrappedRuby; };
+    meta = { platforms = ruby.meta.platforms; };
   };
-in
-rubyEnv
+in rubyEnv
