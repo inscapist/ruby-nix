@@ -2,46 +2,47 @@
 
 let
   inherit (lib) mapAttrs;
-  inherit (import ./gemset-filter.nix { inherit lib ruby groups; })
-    filterGemset;
 
-  applyGemConfig = my.applyConfig gemConfig;
+  finalGemset = let
+    inherit (import ./filters.nix { inherit lib ruby groups; }) filterGemset;
+    inherit (import ./flatten.nix { inherit lib ruby groups my; })
+      genAlternatives;
+    filtered = filterGemset gemset;
+    expanded = genAlternatives filtered;
 
-  # XXX: Improve this code's readability
-  finalGemSpec = ruby: gems: name: attrs:
-    let
-      matchingSource = lib.findFirst (p:
-        let sys = ruby.stdenv.hostPlatform.system;
-        in (
-          # XXX this is not exhaustive
-          if lib.hasPrefix "arm64-darwin" p.platform then
-            sys == "aarch64-darwin"
-          else if lib.hasPrefix "x86_64-darwin" p.platform then
-            sys == "x86_64-darwin"
-          else if p.platform == "x86_64-linux" then
-            sys == "x86_64-linux"
-          else
-            false)) attrs.source # falls back to source compilation otherwise
-        (attrs.nativeSources or [ ]);
-    in ((removeAttrs attrs [ "platforms" "nativeSources" ]) // {
-      inherit ruby;
-      inherit (matchingSource) type;
-      source = removeAttrs matchingSource [ "type" "platform" ];
-      gemName = name;
-      gemPath = map (gemName: gems.${gemName}) (attrs.dependencies or [ ]);
-      version = if (matchingSource.platform or "ruby") == "ruby" then
-        attrs.version
-      else
-        "${attrs.version}-${matchingSource.platform}";
-    });
+    applyGemConfig = _: attrs:
+      my.applyConfig gemConfig "gemName" (attrs // { inherit ruby document; });
+  in mapAttrs applyGemConfig expanded;
 
-  buildGem = name: attrs: buildRubyGem (finalGemSpec ruby gems name attrs);
+  # make this a fixpoint function?
+  gems = let
+    buildGem = name: attrs: buildRubyGem (finalGemSpec gems name attrs);
+    finalGemSpec = gems: name: attrs:
+      let
+        matchingSource = lib.findFirst (p:
+          let sys = ruby.stdenv.hostPlatform.system;
+          in (
+            # XXX this is not exhaustive
+            if lib.hasPrefix "arm64-darwin" p.platform then
+              sys == "aarch64-darwin"
+            else if lib.hasPrefix "x86_64-darwin" p.platform then
+              sys == "x86_64-darwin"
+            else if p.platform == "x86_64-linux" then
+              sys == "x86_64-linux"
+            else
+              false)) attrs.source # falls back to source compilation otherwise
+          (attrs.nativeSources or [ ]);
+      in ((removeAttrs attrs [ "platforms" "nativeSources" ]) // {
+        inherit ruby;
+        inherit (matchingSource) type;
+        source = removeAttrs matchingSource [ "type" "platform" ];
+        gemName = name;
+        gemPath = map (gemName: gems.${gemName}) (attrs.dependencies or [ ]);
+        version = if (matchingSource.platform or "ruby") == "ruby" then
+          attrs.version
+        else
+          "${attrs.version}-${matchingSource.platform}";
+      });
+  in mapAttrs buildGem finalGemset;
 
-  gemset' = mapAttrs (name: attrs:
-    applyGemConfig (attrs // {
-      inherit ruby document;
-      gemName = name;
-    })) (filterGemset gemset);
-
-  gems = mapAttrs buildGem gemset';
-in gems
+in finalGemset
