@@ -31,4 +31,27 @@
     source = null;
     version = "0.5.10621";
   };
+  mini_portile2 = {
+    groups = [ "default" ];
+    platforms = [ ];
+    source = {
+      platform = "ruby";
+      remotes = [ "https://rubygems.org" ];
+      sha256 = "1af4yarhbbx62f7qsmgg5fynrik0s36wjy3difkawy536xg343mp";
+      type = "gem";
+    };
+    version = "2.8.1";
+  };
+  nokogiri = {
+    dependencies = [ "mini_portile2" ];
+    groups = [ "default" ];
+    platforms = [ ];
+    source = {
+      platform = "ruby";
+      remotes = [ "https://rubygems.org" ];
+      sha256 = "0n79k78c5vdcyl0m3y3l5x9kxl6xf5lgriwi2vd665qmdkr01vnk";
+      type = "gem";
+    };
+    version = "1.13.10";
+  };
 }

@@ -52,13 +52,12 @@
       platformMatched = filterAttrs (_: platformMatches ruby) installables;
       groupMatched = filterAttrs (_: groupMatches groups) platformMatched;
 
-      # ensure closure of needed gems, that may be removed in any prior filters.
       ensureDeps = gems:
         let
           depNames = concatMap (gem: gem.dependencies or [ ]) (attrValues gems);
-          deps = getAttrs depNames installables;
+          deps = getAttrs depNames platformMatched;
         in gems // deps;
       converged = converge ensureDeps groupMatched;
-      gemset = mapAttrs targetMatches converged;
-    in gemset;
+
+    in mapAttrs targetMatches converged;
 }

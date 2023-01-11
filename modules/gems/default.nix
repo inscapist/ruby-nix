@@ -5,14 +5,11 @@ let
 
   finalGemset = let
     inherit (import ./filters.nix { inherit lib ruby groups; }) filterGemset;
-    inherit (import ./flatten.nix { inherit lib ruby groups my; })
-      genAlternatives;
+    inherit (import ./expand.nix { inherit lib ruby document gemConfig my; })
+      possibleGems;
     filtered = filterGemset gemset;
-    expanded = genAlternatives filtered;
-
-    applyGemConfig = _: attrs:
-      my.applyConfig gemConfig "gemName" (attrs // { inherit ruby document; });
-  in mapAttrs applyGemConfig expanded;
+    alternatives = possibleGems filtered;
+  in alternatives;
 
   # make this a fixpoint function?
   gems = let
