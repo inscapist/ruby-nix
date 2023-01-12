@@ -1,7 +1,7 @@
-{ lib, ruby, document, gemConfig, my, ... }: rec {
+{ lib, ruby, document, gemConfig, my, ... }:
 
-  inherit (builtins) map;
-  inherit (lib) mapAttrs pipe singleton;
+with builtins;
+with lib; rec {
 
   # `config` is a set of functions with the same keys as `attrs`
   # This is a useful pattern to modify a set

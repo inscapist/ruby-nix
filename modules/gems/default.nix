@@ -27,5 +27,5 @@ with lib; rec {
   gems = flip mapAttrs selected
     (_: spec: pipe spec [ applyDependencies buildRubyGem ]);
 
-  gemPaths = attrValues gems;
+  gempaths = attrValues gems;
 }

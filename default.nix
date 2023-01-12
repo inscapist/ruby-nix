@@ -18,6 +18,7 @@ let
   bundler = pkgs.bundler.override { inherit ruby; };
   mybundix = import bundix { inherit pkgs ruby bundler; };
 
+in rec {
   requirements = (pkgs // {
     inherit my name ruby bundler mybundix gempaths gemConfig groups document
       extraRubySetup;
@@ -27,8 +28,7 @@ let
       (if builtins.pathExists gemset then import gemset else { });
   });
 
-in rec {
-  inherit (import ./modules/gems requirements) gems gemPaths;
+  inherit (import ./modules/gems requirements) gems gempaths;
   inherit (import ./modules/ruby-env requirements) env envMinimal;
   ruby = env.ruby;
 }

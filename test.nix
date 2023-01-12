@@ -1,6 +1,11 @@
 { pkgs ? import <nixpkgs> { } }:
 
-let
+# in `nix repl`
+# :te true
+# :l test.nix
+# :r
+
+rec {
   inherit (pkgs) lib ruby defaultGemConfig;
 
   requirements = (pkgs // rec {
@@ -18,14 +23,6 @@ let
     gemset = import ./tests/multi_app/gemset.nix;
   });
 
-  gems = import ./modules/gems requirements;
-  gempaths = lib.attrValues gems;
-
-in {
-  # in `nix repl`
-  # :te true
-  # :l test.nix
-  # :r
-  inherit gems gempaths;
+  inherit (import ./modules/gems requirements)
+    gems gempaths gemsetVersions selected;
 }
-
