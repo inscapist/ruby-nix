@@ -1,4 +1,4 @@
-{ lib, my, ruby, groups, document, gemset, gemConfig, buildRubyGem, ... }@args:
+{ lib, ruby, gemset, buildRubyGem, ... }@args:
 
 let
   inherit (lib) pipe mapAttrs;
