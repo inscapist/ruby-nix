@@ -7,6 +7,4 @@
       content = (builtins.readFile file);
     in writeShellScriptBin cmd content;
 
-  # check if list is empty
-  listEmpty = list: lib.count (_: true) list == 0;
 }

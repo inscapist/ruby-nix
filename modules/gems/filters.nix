@@ -1,4 +1,4 @@
-{ lib, ruby, groups }: rec {
+{ lib, ruby, groups, ... }: rec {
   inherit (lib)
     attrValues concatMap converge filterAttrs mapAttrs getAttrs intersectLists
     hasPrefix hasSuffix;

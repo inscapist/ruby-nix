@@ -1,15 +1,12 @@
-{ lib, my, ruby, groups, document, gemset, gemConfig, buildRubyGem, ... }:
+{ lib, my, ruby, groups, document, gemset, gemConfig, buildRubyGem, ... }@args:
 
 let
-  inherit (lib) mapAttrs;
+  inherit (lib) pipe mapAttrs;
 
-  finalGemset = let
-    inherit (import ./filters.nix { inherit lib ruby groups; }) filterGemset;
-    inherit (import ./expand.nix { inherit lib ruby document gemConfig my; })
-      possibleGems;
-    filtered = filterGemset gemset;
-    alternatives = possibleGems filtered;
-  in alternatives;
+  gemsetVersions = let
+    inherit (import ./filters.nix args) filterGemset;
+    inherit (import ./expand.nix args) mapGemsetVersions;
+  in pipe gemset [ filterGemset mapGemsetVersions ];
 
   # make this a fixpoint function?
   gems = let
@@ -40,6 +37,6 @@ let
         else
           "${attrs.version}-${matchingSource.platform}";
       });
-  in mapAttrs buildGem finalGemset;
+  in mapAttrs buildGem gemsetVersions;
 
-in finalGemset
+in gemsetVersions

@@ -1,6 +1,6 @@
-{ lib, ruby, document, gemConfig, my }: rec {
+{ lib, ruby, document, gemConfig, my, ... }: rec {
 
-  inherit (lib) flip mapAttrs singleton findFirst;
+  inherit (lib) mapAttrs pipe singleton;
   inherit (builtins) map;
 
   # `config` is a set of functions with the same keys as `attrs`
@@ -16,26 +16,33 @@
   # final cleanup
   cleanup = _: alts: map (x: removeAttrs x [ "compile" ]) alts;
 
-  # create all possible gems due to platform versions (universal-darwin-20, universal-darwin-21)
-  mkAlts = gemName: attrs:
+  # construct gem spec used by `buildRubyGem`
+  eachSource = gemName: attrs: source: {
+    inherit gemName ruby document;
+    inherit (attrs) groups;
+    inherit (source) type compile;
+    dependencies = attrs.dependencies or [ ];
+    version = if source ? target then
+      "${attrs.version}-${source.target}"
+    else
+      attrs.version;
+    source = { inherit (source) remotes sha256; };
+  };
+
+  # create all possible gems due to platform versions
+  # eg. universal-darwin-20, universal-darwin-21
+  mapAlts = gemName: attrs:
     let
-      sources = if my.listEmpty attrs.targets then
+      sources = if attrs.targets == [ ] then
         singleton (attrs.source // { compile = true; })
       else
         map (a: a // { compile = false; }) attrs.targets;
-    in flip map sources (source: {
-      inherit gemName ruby document;
-      inherit (attrs) groups version;
-      inherit (source) type compile;
-      source = { inherit (source) remotes sha256; };
-    });
+    in map (eachSource gemName attrs) sources;
 
-  # main function
-  possibleGems = gemset:
-    let
-      alts = mapAttrs mkAlts gemset;
-      withConfig = mapAttrs applyGemConfig alts;
-      final = mapAttrs cleanup withConfig;
-    in final;
-
+  mapGemsetVersions = gemset:
+    pipe gemset [
+      (mapAttrs mapAlts)
+      (mapAttrs applyGemConfig)
+      (mapAttrs cleanup)
+    ];
 }

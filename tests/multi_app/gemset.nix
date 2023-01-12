@@ -26,6 +26,14 @@
         sha256 = "0cs0qwp89w249yklqb41l88s86hsskf96km16wn93441w3vpv015";
         type = "gem";
       }
+      {
+        target = "invalid-linux-2";
+        targetCPU = "x86_64";
+        targetOS = "linux";
+        remotes = [ "https://rubygems.org" ];
+        sha256 = "0cs0qwp89w249yklqb41l88s86hsskf96km16wn93441w3vpv015";
+        type = "gem";
+      }
     ];
     platforms = [ ];
     source = null;
