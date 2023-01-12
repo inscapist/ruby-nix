@@ -17,17 +17,19 @@
   cleanup = _: alts: map (x: removeAttrs x [ "compile" ]) alts;
 
   # construct gem spec used by `buildRubyGem`
-  eachSource = gemName: attrs: source: {
-    inherit gemName ruby document;
-    inherit (attrs) groups;
-    inherit (source) type compile;
-    dependencies = attrs.dependencies or [ ];
-    version = if source ? target then
-      "${attrs.version}-${source.target}"
-    else
-      attrs.version;
-    source = { inherit (source) remotes sha256; };
-  };
+  eachSource = gemName: attrs: source:
+    (removeAttrs attrs [ "targets" "platforms" ]) // {
+      inherit gemName ruby document;
+      inherit (source) type compile;
+
+      dependencies = attrs.dependencies or [ ];
+      source = { inherit (source) remotes sha256; };
+
+      version = if source ? target then
+        "${attrs.version}-${source.target}"
+      else
+        attrs.version;
+    };
 
   # create all possible gems due to platform versions
   # eg. universal-darwin-20, universal-darwin-21
