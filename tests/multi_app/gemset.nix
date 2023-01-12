@@ -27,7 +27,7 @@
         type = "gem";
       }
       {
-        target = "invalid-linux-2";
+        target = "bad-linux";
         targetCPU = "x86_64";
         targetOS = "linux";
         remotes = [ "https://rubygems.org" ];

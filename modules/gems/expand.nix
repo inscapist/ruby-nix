@@ -33,6 +33,10 @@
 
   # create all possible gems due to platform versions
   # eg. universal-darwin-20, universal-darwin-21
+  #
+  # XXX as of writing, I am not sure we should just pick 1 version,
+  # or to test whether wrap each version in a derivation where the
+  # executable files are tested fine, which isn't a great assumption
   mapAlts = gemName: attrs:
     let
       sources = if attrs.targets == [ ] then
