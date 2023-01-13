@@ -13,7 +13,7 @@ This flake exports a function `rubyNix` that is suitable for local development (
 
 ## How is it different from bundlerEnv?
 
-1. it does not track the entire directory as `inputSrc` when `gemDir` is specified, requiring only the `gemset.nix`.
+1. it does not track the entire directory as `inputSrc` when `gemDir` is specified, requiring only `gemset.nix`.
 2. it does not use `BUNDLE_GEMFILE` variable.
 3. it works without `Gemfile` and `Gemfile.lock`.
 4. it does not override `GEM_HOME`.
@@ -107,10 +107,10 @@ bundle lock --update --add-platform ruby arm64-darwin-21 x86_64-darwin-20 x86_64
 
 You can retrieve the platform names by running `bundle platform`. Having multiple platforms would allow your colleagues to use precompiled gems, if they are available.
 
-### 3. How to use a different ruby version
+### 3. How to use a different ruby version?
 
 [simple-app](examples/simple-app/flake.nix) shows how to use ruby_3_1 insted of the
-default version (2.7.6).
+_current_ default version (2.7.6).
 
 ## Credits
 
