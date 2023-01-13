@@ -7,7 +7,7 @@
     bundix.flake = false;
   };
 
-  outputs = { self, bundix }: rec {
+  outputs = { self, bundix }: {
     lib = import ./. bundix;
     overlays.ruby = import ./modules/overlays/ruby-overlay.nix;
 

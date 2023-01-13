@@ -25,7 +25,7 @@ with lib; rec {
       dependencies = attrs.dependencies or [ ];
       source = { inherit (source) remotes sha256; };
 
-      version = if source ? target then
+      version = if source ? target && source.target != "ruby" then
         "${attrs.version}-${source.target}"
       else
         attrs.version;
@@ -37,6 +37,8 @@ with lib; rec {
   # XXX as of writing, I am not sure we should just pick 1 version,
   # or to test whether wrap each version in a derivation where the
   # executable files are tested fine, which isn't a great assumption
+  #
+  # See `Gem::Platform.match` in rubygems/platform.rb
   mapAlts = gemName: attrs:
     let
       sources = if attrs.targets == [ ] then

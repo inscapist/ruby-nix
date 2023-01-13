@@ -29,8 +29,8 @@
             is32bit is64bit isAarch32 isAarch64 isDarwin isWindows isLinux
             isMinGW isCygwin;
 
-          c = t.targetCPU;
-          o = t.targetOS;
+          c = t.targetCPU or null;
+          o = t.targetOS or null;
 
           cpuMatch = c == null || c == "universal"
             || ((is64bit || isAarch64) && (hasSuffix "64" c))
