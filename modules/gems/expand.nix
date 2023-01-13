@@ -19,11 +19,10 @@ with lib; rec {
   # construct gem spec used by `buildRubyGem`
   eachSource = gemName: attrs: source:
     (removeAttrs attrs [ "targets" "platforms" ]) // {
-      inherit gemName ruby document;
+      inherit gemName ruby document source;
       inherit (source) type compile;
 
       dependencies = attrs.dependencies or [ ];
-      source = { inherit (source) remotes sha256; };
 
       version = if source ? target && source.target != "ruby" then
         "${attrs.version}-${source.target}"
