@@ -12,37 +12,37 @@ let
       ${lib.escapeShellArg groups}
   '';
 
-  # ruby binaries can the omitted in production
-  wrappedRuby = stdenv.mkDerivation {
-    name = "${name}-ruby";
-    nativeBuildInputs = [ makeBinaryWrapper ];
-    dontUnpack = true;
-
-    buildPhase = ''
-      mkdir -p $out/bin
-      for i in ${ruby}/bin/*; do
-        makeWrapper "$i" $out/bin/$(basename "$i") \
-          --set GEM_HOME ${rubyEnv}/${ruby.gemPath} \
-          --set GEM_PATH ${rubyEnv}/${ruby.gemPath}
-      done
-    '';
-
-    dontInstall = true;
-    doCheck = true;
-    checkPhase = ''
-      $out/bin/ruby --help > /dev/null
-      $out/bin/gem --version > /dev/null
-    '';
-    inherit (ruby) meta;
-  };
-
   rubyEnv = buildEnv {
     name = "${name}-ruby-env";
     paths = gempaths ++ [ bundler ];
     pathsToLink = [ "/lib" ];
     postBuild = mkBinStubs
       + lib.optionalString (extraRubySetup != null) extraRubySetup;
-    passthru = { ruby = wrappedRuby; };
+    passthru = {
+      ruby = stdenv.mkDerivation {
+        name = "${name}-ruby";
+        nativeBuildInputs = [ makeBinaryWrapper ];
+        dontUnpack = true;
+
+        # setting this makes life somewhat more difficult for developers
+        # set GEM_HOME ${rubyEnv}/${ruby.gemPath}
+        buildPhase = ''
+          mkdir -p $out/bin
+          for i in ${ruby}/bin/*; do
+            makeWrapper "$i" $out/bin/$(basename "$i") \
+              --set GEM_PATH ${rubyEnv}/${ruby.gemPath}
+          done
+        '';
+
+        dontInstall = true;
+        doCheck = true;
+        checkPhase = ''
+          $out/bin/ruby --help > /dev/null
+          $out/bin/gem --version > /dev/null
+        '';
+        meta = ruby.meta;
+      };
+    };
     meta = { platforms = ruby.meta.platforms; };
   };
 in rubyEnv

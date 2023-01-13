@@ -7,7 +7,7 @@ let
     name = "rubynix-test";
     gemset = ./tests/multi_app/gemset.nix;
   })
-    env ruby;
+    env;
 in pkgs.mkShell {
-  buildInputs = [ ruby env ] ++ (with pkgs; [ rnix-lsp nixfmt ]);
+  buildInputs = [ env.ruby env ] ++ (with pkgs; [ nix nixfmt ]);
 }

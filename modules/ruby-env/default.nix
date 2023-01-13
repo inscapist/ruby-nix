@@ -1,4 +1,4 @@
-{ stdenv, lib, my, mybundix, ruby, buildEnv, name, ... }@args:
+{ stdenv, lib, my, mybundix, buildEnv, name, ... }@args:
 
 let
   rubyEnv = import ./ruby-env.nix args;
@@ -11,7 +11,7 @@ let
     paths = [ rubyEnv (lib.lowPrio rubyEnv.ruby) ] ++ extras;
     pathsToLink = [ "/" ];
     passthru = { ruby = rubyEnv.ruby; };
-    meta = { platforms = ruby.meta.platforms; };
+    meta = { platforms = rubyEnv.meta.platforms; };
   };
 
   # useful for production

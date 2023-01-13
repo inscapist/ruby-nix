@@ -13,7 +13,8 @@ rec {
     name = "test-ruby-nix";
     my = import ./mylib.nix pkgs;
     bundler = pkgs.bundler.override { inherit ruby; };
-    mybundix = import pkgs.bundix { inherit pkgs ruby bundler; };
+    mybundix = pkgs.bundix;
+    # mybundix = import pkgs.bundix { inherit pkgs ruby bundler; };
     gemConfig = defaultGemConfig // {
       sorbet-static = _: { buildFlags = [ "--invalid-flag" ]; };
     };
@@ -25,4 +26,6 @@ rec {
 
   inherit (import ./modules/gems requirements)
     gems gempaths gemsetVersions selected;
+
+  inherit (import ./modules/ruby-env requirements) env envMinimal;
 }

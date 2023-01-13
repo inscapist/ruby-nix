@@ -30,5 +30,4 @@ in rec {
 
   inherit (import ./modules/gems requirements) gems gempaths;
   inherit (import ./modules/ruby-env requirements) env envMinimal;
-  ruby = env.ruby;
 }
