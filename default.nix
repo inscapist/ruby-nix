@@ -1,14 +1,7 @@
 bundix:
 
-{ stdenv
-, lib
-, buildEnv
-, ruby
-, makeBinaryWrapper
-, defaultGemConfig
-, buildRubyGem
-, ...
-}@pkgs:
+{ stdenv, lib, buildEnv, ruby, makeBinaryWrapper, defaultGemConfig, buildRubyGem
+, ... }@pkgs:
 
 # this is where we specify how the ruby environment should be built
 { name ? "ruby-nix" # passed along to buildEnv
@@ -26,21 +19,17 @@ let
   mybundix = import bundix { inherit pkgs ruby bundler; };
 
   requirements = (pkgs // {
-    inherit my name ruby bundler mybundix gempaths
-      gemConfig groups document extraRubySetup;
-    gemset =
-      if builtins.typeOf gemset == "set"
-      then gemset
-      else
-        (if builtins.pathExists gemset then
-          import gemset else { });
+    inherit my name ruby bundler mybundix gempaths gemConfig groups document
+      extraRubySetup;
+    gemset = if builtins.typeOf gemset == "set" then
+      gemset
+    else
+      (if builtins.pathExists gemset then import gemset else { });
   });
 
-  gems = import ./modules/gems requirements;
-  gempaths = lib.attrValues gems;
-in
-rec {
-  inherit gems;
+  inherit (import ./modules/gems requirements) gems gempaths;
   inherit (import ./modules/ruby-env requirements) env envMinimal;
+in rec {
   ruby = env.ruby;
+  inherit env envMinimal;
 }

@@ -1,60 +1,31 @@
-{ lib
-, my
-, ruby
-, groups
-, document
-, gemset
-, gemConfig
-, buildRubyGem
-, ...
-}:
+{ lib, ruby, gemset, buildRubyGem, ... }@args:
 
-let
-  inherit (lib) mapAttrs;
-  inherit (import ./gemset-resolver.nix { inherit lib ruby groups; })
-    resolveGemset;
+with builtins;
+with lib; rec {
 
-  applyGemConfig = my.applyConfig gemConfig;
+  # captures matching gem versions(variants)
+  gemsetVersions = let
+    inherit (import ./filters.nix args) filterGemset;
+    inherit (import ./expand.nix args) mapGemsetVersions;
+  in pipe gemset [ filterGemset mapGemsetVersions ];
 
-  # XXX: Improve this code's readability
-  finalGemSpec = ruby: gems: name: attrs:
-    let matchingSource =
-      lib.findFirst
-        (p:
-          let sys = ruby.stdenv.hostPlatform.system; in
-          # to find whether there is a matching precompiled gem for this platform
-          (
-            if lib.hasPrefix "arm64-darwin" p.platform then sys == "aarch64-darwin"
-            else if lib.hasPrefix "x86_64-darwin" p.platform then sys == "x86_64-darwin"
-            else if p.platform == "x86_64-linux" then sys == "x86_64-linux"
-            else false
-          )
-        )
-        # falls back to source compilation otherwise
-        attrs.source
-        (attrs.nativeSources or [ ]);
-    in
-    ((removeAttrs attrs [ "platforms" "nativeSources" ]) // {
-      inherit ruby;
-      inherit (matchingSource) type;
-      source = removeAttrs matchingSource [ "type" "platform" ];
-      gemName = name;
-      gemPath = map (gemName: gems.${gemName}) (attrs.dependencies or [ ]);
-      version =
-        if (matchingSource.platform or "ruby") == "ruby" then
-          attrs.version else "${attrs.version}-${matchingSource.platform}";
-    });
+  # XXX select the most specific gem version to install
+  selected = flip mapAttrs gemsetVersions (_: versions:
+    let
+      moreSpecific = a: b:
+        if stringLength a.version > stringLength b.version then a else b;
+    in foldl moreSpecific (head versions) versions);
 
-  buildGem = name: attrs:
-    buildRubyGem (finalGemSpec ruby gems name attrs);
+  # `gemPath` will be passed to `propagatedBuildInputs` and
+  # `propagatedUserEnvPkgs` of the gem derivation
+  applyDependencies = spec:
+    spec // {
+      gemPath = map (d: gems.${d}) spec.dependencies;
+    };
 
-  gemset' = mapAttrs
-    (name: attrs:
-      applyGemConfig (attrs //
-        { inherit ruby document; gemName = name; })
-    )
-    (resolveGemset gemset);
+  # for debugging, remove buildRubyGem
+  gems = flip mapAttrs selected
+    (_: spec: pipe spec [ applyDependencies buildRubyGem ]);
 
-  gems = mapAttrs buildGem gemset';
-in
-gems
+  gempaths = attrValues gems;
+}

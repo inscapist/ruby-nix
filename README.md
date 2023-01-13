@@ -16,27 +16,29 @@ This flake exports a function `rubyNix` that is suitable for local development (
 1. it does not track the entire directory as `inputSrc` when `gemDir` is specified, requiring only the `gemset.nix`.
 2. it does not use `BUNDLE_GEMFILE` variable.
 3. it works without `Gemfile` and `Gemfile.lock`.
+4. it does not override `GEM_HOME`.
 
 ## The gist
 
 ``` nix
-let
-    pkgs = import nixpkgs { inherit system; };
-    rubyNix = ruby-nix.lib pkgs;
-
-    inherit (rubyNix {
-        name = "simple-ruby-app";
-        gemset = ./gemset.nix;
-    }) env envMinimal; 
-in
-{
-    devShells = rec {
-        default = dev;
-        dev = pkgs.mkShell {
-            buildInputs = [ env ];
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ ruby-nix.overlays.ruby ];
         };
-    };
-}
+        rubyNix = ruby-nix.lib pkgs;
+
+        inherit (rubyNix {
+          name = "simple-ruby-app";
+          gemset = ./gemset.nix;
+        })
+          env ruby;
+      in {
+        devShells = rec {
+          default = dev;
+          dev = pkgs.mkShell { buildInputs = [ env ruby ]; };
+        };
+      });
 ```
 
 ## Usage
@@ -63,7 +65,7 @@ use flake
 
 #### 3. In nix shell
 
-In a nix shell, you have `ruby`, `irb`, `bundle` at your disposal. Additional gems will only be available if they are specified in `gemset.nix`. To generate that, replace `Gemfile` and `Gemfile.lock` with your own and run `bundix`. 
+In a nix shell, you have `ruby`, `irb`, `bundle` at your disposal. Additional gems will only be available if they are specified in `gemset.nix`. To generate that, ensure `Gemfile` and `Gemfile.lock` are present, then run `bundix`. 
 
 ## FAQs
 
@@ -95,11 +97,8 @@ You can retrieve the platform names by running `bundle platform`. Having multipl
 
 ### 3. How to use a different ruby version
 
-`examples/simple-app/flake.nix` shows howto use ruby_3_1 insted of the
+[simple-app](examples/simple-app/flake.nix) shows how to use ruby_3_1 insted of the
 default version (2.7.6).
-
-## Screencast (WIP)
-
 
 ## Credits
 
