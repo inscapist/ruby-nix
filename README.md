@@ -16,6 +16,7 @@ This flake exports a function `rubyNix` that is suitable for local development (
 1. it does not track the entire directory as `inputSrc` when `gemDir` is specified, requiring only the `gemset.nix`.
 2. it does not use `BUNDLE_GEMFILE` variable.
 3. it works without `Gemfile` and `Gemfile.lock`.
+4. it does not override `GEM_HOME`.
 
 ## The gist
 
