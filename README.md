@@ -40,6 +40,18 @@ This flake exports a function `rubyNix` that is suitable for local development (
         };
       });
 ```
+## Global Bundix Installation (optional)
+
+My bundix [fork](https://github.com/sagittaros/bundix) is needed to generate the correct `gemset.nix`. It is available in nix shell by default. 
+
+
+``` sh
+# installation
+nix profile install github:sagittaros/bundix
+
+# upgrade
+nix profile upgrade '.*'
+```
 
 ## Usage
 
