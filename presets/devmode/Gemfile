@@ -9,7 +9,4 @@ group :development, :test do
   gem "debug"
 end
 
-# https://sorbet.org/docs/adopting
-gem 'sorbet', :group => :development
-gem 'sorbet-runtime'
-gem 'tapioca', require: false, :group => :development
+gem "rubocop"
