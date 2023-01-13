@@ -9,6 +9,10 @@
 
   outputs = { self, bundix }: {
     lib = import ./. bundix;
+
+    # preset gemsets
+    presets = { devmode = import ./presets/devmode/gemset.nix; };
+
     overlays.ruby = import ./modules/overlays/ruby-overlay.nix;
 
     templates = {

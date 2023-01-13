@@ -18,15 +18,19 @@
         };
         rubyNix = ruby-nix.lib pkgs;
 
+        # TODO generate with bundix, and use it below
+        # gemset = import ./gemset.nix;
+        gemset = { };
+
         inherit (rubyNix {
           name = "simple-ruby-app";
-          gemset = ./gemset.nix;
+          gemset = ruby-nix.presets.devmode // gemset;
         })
           env ruby;
       in {
         devShells = rec {
           default = dev;
-          dev = pkgs.mkShell { buildInputs = [ env ruby ]; };
+          dev = pkgs.mkShell { buildInputs = [ env ruby pkgs.rufo ]; };
         };
       });
 }
