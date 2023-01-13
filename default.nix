@@ -18,7 +18,6 @@ let
   bundler = pkgs.bundler.override { inherit ruby; };
   mybundix = import bundix { inherit pkgs ruby bundler; };
 
-in rec {
   requirements = (pkgs // {
     inherit my name ruby bundler mybundix gempaths gemConfig groups document
       extraRubySetup;
@@ -30,4 +29,7 @@ in rec {
 
   inherit (import ./modules/gems requirements) gems gempaths;
   inherit (import ./modules/ruby-env requirements) env envMinimal;
+in rec {
+  ruby = env.ruby;
+  inherit env envMinimal;
 }
