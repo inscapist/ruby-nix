@@ -22,11 +22,11 @@
           name = "simple-ruby-app";
           gemset = ./gemset.nix;
         })
-          env envMinimal;
+          env ruby;
       in {
         devShells = rec {
           default = dev;
-          dev = pkgs.mkShell { buildInputs = [ env ]; };
+          dev = pkgs.mkShell { buildInputs = [ env ruby ]; };
         };
       });
 }
