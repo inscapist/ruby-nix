@@ -37,7 +37,7 @@
         inherit (rubyNix {
           name = "talenox-rails";
           gemset = finalGemset;
-          ruby = pkgs.ruby;
+          ruby = pkgs.ruby; # alternatively, pkgs.ruby_3_1;
           gemConfig = pkgs.defaultGemConfig // gemConfig;
         })
           env ruby;
