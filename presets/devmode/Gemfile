@@ -4,9 +4,6 @@ source "https://rubygems.org"
 
 # SEND PRS!!!
 
-group :development, :test do
-  # https://github.com/ruby/debug
-  gem "debug"
-end
-
+# https://github.com/ruby/debug
+gem "debug"
 gem "rubocop"
