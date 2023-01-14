@@ -22,7 +22,12 @@
         # gemset = import ./gemset.nix;
         gemset = { };
 
-        # If you want to override your gem build config
+        # NOTE If you want to override gem build config
+        # See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/ruby-modules/gem-config/default.nix
+        # gemConfig = {
+        #   cbc-wrapper = _: { buildInputs = [ pkgs.cbc ]; };
+        #   gpgme = _: { buildInputs = [ pkgs.pkg-config ]; };
+        # };
         gemConfig = { };
 
       in rec {
@@ -40,6 +45,7 @@
         devShells = rec {
           default = dev;
           dev = pkgs.mkShell {
+            # NOTE ordering is important here, the head in $PATH always take precedence
             buildInputs = [ ruby env ]
               ++ (with pkgs; [ nodejs-19_x yarn rufo ]);
           };
