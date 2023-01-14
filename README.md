@@ -109,8 +109,8 @@ You can retrieve the platform names by running `bundle platform`. Having multipl
 
 ### 3. How to use a different ruby version?
 
-[simple-app](examples/simple-app/flake.nix) shows how to use ruby_3_1 insted of the
-_current_ default version (2.7.6).
+Code comment of [simple-app](examples/simple-app/flake.nix) shows how to use ruby_3_1 instead of the
+_current_ default version (2.7.6). You can also write your own overlay that overrides globally with your own ruby derivation.
 
 ## Credits
 
