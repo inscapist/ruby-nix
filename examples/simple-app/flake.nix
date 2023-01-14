@@ -35,7 +35,7 @@
         finalGemset = devmode // gemset;
 
         inherit (rubyNix {
-          name = "talenox-rails";
+          name = "my-rails-app";
           gemset = finalGemset;
           ruby = pkgs.ruby; # alternatively, pkgs.ruby_3_1;
           gemConfig = pkgs.defaultGemConfig // gemConfig;
