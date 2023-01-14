@@ -22,15 +22,27 @@
         # gemset = import ./gemset.nix;
         gemset = { };
 
+        # If you want to override your gem build config
+        gemConfig = { };
+
+      in rec {
+        devmode = ruby-nix.presets.devmode;
+        finalGemset = devmode // gemset;
+
         inherit (rubyNix {
-          name = "simple-ruby-app";
-          gemset = ruby-nix.presets.devmode // gemset;
+          name = "talenox-rails";
+          gemset = finalGemset;
+          ruby = pkgs.ruby;
+          gemConfig = pkgs.defaultGemConfig // gemConfig;
         })
           env ruby;
-      in {
+
         devShells = rec {
           default = dev;
-          dev = pkgs.mkShell { buildInputs = [ env ruby pkgs.rufo ]; };
+          dev = pkgs.mkShell {
+            buildInputs = [ ruby env ]
+              ++ (with pkgs; [ nodejs-19_x yarn rufo ]);
+          };
         };
       });
 }
