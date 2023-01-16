@@ -16,12 +16,12 @@
       attrs.platforms);
 
   # respect gem grouping specified in Gemfile
-  groupMatches = groups: attrs:
+  groupMatches = attrs:
     groups == null || !(attrs ? groups)
     || (intersectLists (groups ++ [ "default" ]) attrs.groups) != [ ];
 
   # https://github.com/rubygems/rubygems/blob/master/lib/rubygems/platform.rb
-  targetMatches = name: attrs:
+  targetMatches = _: attrs:
     let
       matcher = t:
         let
@@ -50,7 +50,7 @@
     let
       installables = filterAttrs (_: notLocalGems) gemset;
       platformMatched = filterAttrs (_: platformMatches ruby) installables;
-      groupMatched = filterAttrs (_: groupMatches groups) platformMatched;
+      groupMatched = filterAttrs (_: groupMatches) platformMatched;
 
       ensureDeps = gems:
         let

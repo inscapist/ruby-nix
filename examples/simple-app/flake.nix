@@ -14,7 +14,7 @@
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ ruby-nix.overlays.ruby ];
+          # overlays = [ ruby-nix.overlays.ruby ];
         };
         rubyNix = ruby-nix.lib pkgs;
 
