@@ -31,18 +31,18 @@
           cpu = t.targetCPU or null;
           os = t.targetOS or null;
 
+          # CPU
           universal = cpu == null || cpu == "universal";
           armBased = builtins.any (s: hasInfix s cpu) [ "arm" "amd" "aarch" ];
-          instructionMatch = (isAarch && armBased) || !(isAarch || armBased);
-
-          archMatch = (is64bit && (hasSuffix "64" cpu))
+          archMatch = (isAarch && armBased) || !(isAarch || armBased);
+          bitMatch = (is64bit && (hasSuffix "64" cpu))
             || (is32bit && (hasSuffix "86" cpu));
 
           osMatch = (isDarwin && os == "darwin") || (isLinux && os == "linux")
             || (isWindows && hasPrefix "mswin" os)
             || (isMinGW && hasPrefix "mingw" os)
             || (isCygwin && hasPrefix "cygwin" os);
-        in (universal || (instructionMatch && archMatch)) && osMatch;
+        in (universal || (archMatch && bitMatch)) && osMatch;
 
       targets = builtins.filter matcher (attrs.targets or [ ]);
     in (builtins.removeAttrs attrs [ "targets" ]) // { inherit targets; };
