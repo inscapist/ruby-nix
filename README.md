@@ -107,6 +107,25 @@ bundle lock --update --add-platform ruby arm64-darwin-21 x86_64-darwin-20 x86_64
 
 You can retrieve the platform names by running `bundle platform`. Having multiple platforms would allow your colleagues to use precompiled gems, if they are available.
 
+In your Gemfile.lock, it should show up as:
+```
+   sorbet-runtime (0.5.10626)
+    sorbet-static (0.5.10626-universal-darwin-20)
+    sorbet-static (0.5.10626-universal-darwin-21)
+    sorbet-static (0.5.10626-universal-darwin-22)
+    sorbet-static (0.5.10626-x86_64-linux)
+    sorbet-static-and-runtime (0.5.10626)
+      sorbet (= 0.5.10626)
+@@ -1232,6 +1233,7 @@ GEM
+PLATFORMS
+  arm64-darwin-20
+  arm64-darwin-21
+  arm64-darwin-22
+  x86_64-darwin-20
+  x86_64-darwin-21
+  x86_64-linux
+```
+
 ### 3. How to use a different ruby version?
 
 Code comment of [simple-app](examples/simple-app/flake.nix) shows how to use ruby_3_1 instead of the
