@@ -2,7 +2,7 @@
 
 This is technically a fork of `bundlerEnv` that attempts to better meet the needs of ruby app developers instead of package maintainers.
 
-This flake exports a function `rubyNix` that is suitable for local development (eg. Rails).
+This flake exports a function that is suitable for application development (eg. Rails).
 
 ## Features
 
