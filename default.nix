@@ -27,7 +27,7 @@ let
       (if builtins.pathExists gemset then import gemset else { });
   });
 
-  inherit (import ./modules/gems requirements) gems gempaths;
+  inherit (import ./modules/gems requirements) gempaths;
   inherit (import ./modules/ruby-env requirements) env envMinimal;
 in rec {
   ruby = env.ruby;

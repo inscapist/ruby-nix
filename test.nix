@@ -4,6 +4,7 @@
 # :te true
 # :l test.nix
 # :r
+# :p gemsetVersions.sorbet-static
 
 rec {
   inherit (pkgs) lib ruby defaultGemConfig;
@@ -16,7 +17,7 @@ rec {
     mybundix = pkgs.bundix;
     # mybundix = import pkgs.bundix { inherit pkgs ruby bundler; };
     gemConfig = defaultGemConfig // {
-      sorbet-static = _: { buildFlags = [ "--invalid-flag" ]; };
+      sorbet-static = _: { buildFlags = [ "--random-flag" ]; };
     };
     groups = null;
     document = [ ];
