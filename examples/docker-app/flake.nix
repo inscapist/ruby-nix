@@ -24,6 +24,8 @@
         })
           env;
 
+        # XXX this is currently unmaintained. Use this as reference only!
+
         # https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/docker/examples.nix
         dockerImage = pkgs.dockerTools.buildImage {
           name = "ruby-app-image";
