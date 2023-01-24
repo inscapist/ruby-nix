@@ -2,12 +2,13 @@
   description = "Nix function(s) for creating ruby environments";
 
   inputs = {
+    nixpkgs.url = "nixpkgs";
+
     # a fork that supports platform dependant gem
     bundix.url = "github:sagittaros/bundix";
-    bundix.flake = false;
   };
 
-  outputs = { self, bundix }: {
+  outputs = { self, nixpkgs, bundix }: {
     lib = import ./. bundix;
 
     # preset gemsets
@@ -27,7 +28,11 @@
     };
     templates.default = self.templates.simple-app;
 
-    # XXX impure dev shell, too lazy to configure flake-compat for bundix
-    devShells.x86_64-linux.default = import ./shell.nix { inherit bundix; };
+    devShells.x86_64-linux.default = let
+      pkgs = import nixpkgs {
+        system = "x86_64-linux";
+        overlays = [ (import ./modules/overlays/ruby-overlay.nix) ];
+      };
+    in import ./shell.nix { inherit pkgs bundix; };
   };
 }

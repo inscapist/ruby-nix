@@ -1,6 +1,4 @@
-{ pkgs ? import <nixpkgs> {
-  overlays = [ (import ./modules/overlays/ruby-overlay.nix) ];
-}, bundix }:
+{ pkgs, bundix }:
 let
   rubyNix = (import ./default.nix bundix) pkgs;
   inherit (rubyNix {
