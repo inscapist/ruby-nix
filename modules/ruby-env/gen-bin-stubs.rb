@@ -58,7 +58,7 @@ def bundler_setup!
   Bundler.setup(#{groups.map(&:dump).join(', ')})
 end
 
-if File.exists? "\#{Dir.pwd}/Gemfile"
+if File.exist? "\#{Dir.pwd}/Gemfile"
    bundler_setup!
 end
 
