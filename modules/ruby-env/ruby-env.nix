@@ -24,13 +24,12 @@ let
         nativeBuildInputs = [ makeBinaryWrapper ];
         dontUnpack = true;
 
-        # setting this makes life somewhat more difficult for developers
-        # set GEM_HOME ${rubyEnv}/${ruby.gemPath}
         buildPhase = ''
           mkdir -p $out/bin
           for i in ${ruby}/bin/*; do
             makeWrapper "$i" $out/bin/$(basename "$i") \
-              --set GEM_PATH ${rubyEnv}/${ruby.gemPath}
+              --set GEM_PATH ${rubyEnv}/${ruby.gemPath} \
+              --set GEM_HOME ${rubyEnv}/${ruby.gemPath}
           done
         '';
 
