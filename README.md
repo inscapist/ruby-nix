@@ -7,16 +7,16 @@ This flake exports a function that is suitable for application development (eg. 
 ## Features
 
 1. supports local, path-based gems
-2. supports pre-compiled native gems on multiple platforms (see [this discussion](https://github.com/nix-community/bundix/pull/68))
-3. bundix and bundler out of the box
-4. Two starter templates based on flakes
+2. supports git sources
+3. supports pre-compiled native gems on multiple platforms (see [this discussion](https://github.com/nix-community/bundix/pull/68))
+4. bundix out of the box
+5. Two starter templates based on flakes
 
 ## How is it different from bundlerEnv?
 
 1. it does not track the entire directory as `inputSrc` when `gemDir` is specified, requiring only `gemset.nix`.
 2. it does not use `BUNDLE_GEMFILE` variable.
 3. it works without `Gemfile` and `Gemfile.lock`.
-4. it does not override `GEM_HOME`.
 
 ## The gist
 
@@ -130,6 +130,26 @@ PLATFORMS
 
 Code comment of [simple-app](examples/simple-app/flake.nix) shows how to use ruby_3_1 instead of the
 _current_ default version (2.7.6). You can also write your own overlay that overrides globally with your own ruby derivation.
+
+## Common issues
+
+#### Local bundle config overriding environment
+Check your `.bundle/config` 
+
+#### Ruby or gems don't come from nix
+Check that you have removed `.rbenv` or `.rvm`
+
+#### Bundle install doesn't work
+Check the previous section. You should only use `bundler` to lock your dependencies, not install them.
+
+#### I don't like that `nix develop` is a bash shell
+Use `nix develop -c zsh` or even better install `.envrc`, following this guide.
+
+## Roadmap
+
+1. Try out more ruby versions, both old and new
+2. Make bundix runs faster
+3. More documentations
 
 ## Credits
 
