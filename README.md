@@ -133,6 +133,9 @@ _current_ default version (2.7.6). You can also write your own overlay that over
 
 ## Common issues
 
+#### I want to use a custom ruby version
+Check the [sample](examples/simple-app/flake.nix). @bobvanderlinden maintains it at the [nixpkgs-ruby](https://github.com/bobvanderlinden/nixpkgs-ruby/tree/master) project.
+
 #### Local bundle config overriding environment
 Check your `.bundle/config` 
 
