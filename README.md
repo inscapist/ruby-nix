@@ -10,7 +10,7 @@ This flake exports a function that is suitable for application development (eg. 
 2. supports git sources
 3. supports pre-compiled native gems on multiple platforms (see [this discussion](https://github.com/nix-community/bundix/pull/68))
 4. bundix out of the box
-5. Two starter templates based on flakes
+5. A starter template based on flake
 
 ## How is it different from bundlerEnv?
 
