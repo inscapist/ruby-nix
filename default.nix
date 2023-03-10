@@ -29,6 +29,7 @@ let
   inherit (import ./modules/gems requirements) gempaths;
   inherit (import ./modules/ruby-env requirements) env envMinimal;
 in rec {
+  version = "v0.1.2";
   ruby = env.ruby;
   inherit env envMinimal;
 }
