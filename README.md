@@ -47,7 +47,7 @@ My bundix [fork](https://github.com/sagittaros/bundix) is needed to generate the
 
 ``` sh
 # installation
-nix profile install github:sagittaros/bundix
+nix profile install github:sagittaros/bundix/main
 
 # upgrade
 nix profile upgrade '.*'
@@ -61,7 +61,7 @@ With nix [installed](/docs/nix-installation.md) and optionally [direnv](/docs/di
 
 ``` sh
 cd myapp
-nix flake init -t github:sagittaros/ruby-nix
+nix flake init -t github:sagittaros/ruby-nix/main
 ```
 
 #### 2. Enter nix shell

@@ -5,7 +5,10 @@
     nixpkgs.url = "nixpkgs";
 
     # a fork that supports platform dependant gem
-    bundix.url = "github:sagittaros/bundix";
+    bundix = {
+      url = "github:sagittaros/bundix/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, bundix }: {
