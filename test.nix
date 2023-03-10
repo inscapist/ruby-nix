@@ -14,8 +14,6 @@ rec {
     name = "test-ruby-nix";
     my = import ./mylib.nix pkgs;
     bundler = pkgs.bundler.override { inherit ruby; };
-    mybundix = pkgs.bundix;
-    # mybundix = import pkgs.bundix { inherit pkgs ruby bundler; };
     gemConfig = defaultGemConfig // {
       sorbet-static = _: { buildFlags = [ "--random-flag" ]; };
     };

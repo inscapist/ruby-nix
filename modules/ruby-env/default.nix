@@ -1,9 +1,9 @@
-{ stdenv, lib, my, mybundix, buildEnv, name, ... }@args:
+{ stdenv, lib, my, bundix, buildEnv, name, ... }@args:
 
 let
   rubyEnv = import ./ruby-env.nix args;
 
-  extras = [ mybundix ];
+  extras = [ bundix ];
 
   # useful for development
   env = buildEnv {

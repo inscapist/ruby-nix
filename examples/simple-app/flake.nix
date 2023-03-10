@@ -3,16 +3,13 @@
   inputs = {
     nixpkgs.url = "nixpkgs";
     ruby-nix.url = "github:sagittaros/ruby-nix";
-    flake-utils.url = "github:numtide/flake-utils";
+    fu.url = "github:numtide/flake-utils";
     bob-ruby.url = "github:bobvanderlinden/nixpkgs-ruby";
     bob-ruby.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs = { self, nixpkgs, ruby-nix, bob-ruby, flake-utils }:
-    flake-utils.lib.eachSystem [
-      "aarch64-darwin"
-      "x86_64-darwin"
-      "x86_64-linux"
-    ] (system:
+  outputs = { self, nixpkgs, fu, ruby-nix, bob-ruby }:
+    with fu.lib;
+    eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           inherit system;
@@ -21,7 +18,7 @@
           #   pkgs."ruby-3"
           #   pkgs."ruby-2.7"
           #   pkgs."ruby-3.0.1"
-          # Available versions, see:
+          # See available versions here:
           #   https://github.com/bobvanderlinden/nixpkgs-ruby/blob/master/ruby/versions.json
         };
         rubyNix = ruby-nix.lib pkgs;
