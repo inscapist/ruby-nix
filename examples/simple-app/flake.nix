@@ -1,5 +1,12 @@
 {
   description = "A simple ruby app demo";
+
+  nixConfig = {
+    substituters = "https://cache.nixos.org https://nixpkgs-ruby.cachix.org";
+    trusted-public-keys =
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nixpkgs-ruby.cachix.org-1:vrcdi50fTolOxWCZZkw0jakOnUI1T19oYJ+PRYdK4SM=";
+  };
+
   inputs = {
     nixpkgs.url = "nixpkgs";
     ruby-nix.url = "github:sagittaros/ruby-nix";
@@ -7,6 +14,7 @@
     bob-ruby.url = "github:bobvanderlinden/nixpkgs-ruby";
     bob-ruby.inputs.nixpkgs.follows = "nixpkgs";
   };
+
   outputs = { self, nixpkgs, fu, ruby-nix, bob-ruby }:
     with fu.lib;
     eachDefaultSystem (system:
@@ -42,7 +50,7 @@
         inherit (rubyNix {
           name = "my-rails-app";
           gemset = finalGemset;
-          ruby = pkgs."ruby-3.0.1";
+          ruby = pkgs."ruby-3.2";
           gemConfig = pkgs.defaultGemConfig // gemConfig;
         })
           env ruby;
