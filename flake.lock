@@ -8,11 +8,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1679040818,
-        "narHash": "sha256-gDAM6cdImOfclma19adm+kNuZQeJ7APJegmdgBCc9NU=",
+        "lastModified": 1679041248,
+        "narHash": "sha256-E2Lo2y7EU3XUm4/HzyJz2uxbz55kBuap4sNcDMyRcCw=",
         "owner": "sagittaros",
         "repo": "bundix",
-        "rev": "3ad397c33b6bc8903811bdd7d5efa4711bc170a4",
+        "rev": "139e7726f9ae13d355e15c9224e045ccd9af7b3b",
         "type": "github"
       },
       "original": {
