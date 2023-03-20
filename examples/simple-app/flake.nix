@@ -2,9 +2,9 @@
   description = "A simple ruby app demo";
 
   nixConfig = {
-    substituters = "https://cache.nixos.org https://nixpkgs-ruby.cachix.org";
-    trusted-public-keys =
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nixpkgs-ruby.cachix.org-1:vrcdi50fTolOxWCZZkw0jakOnUI1T19oYJ+PRYdK4SM=";
+    extra-substituters = "https://nixpkgs-ruby.cachix.org";
+    extra-trusted-public-keys =
+      "nixpkgs-ruby.cachix.org-1:vrcdi50fTolOxWCZZkw0jakOnUI1T19oYJ+PRYdK4SM=";
   };
 
   inputs = {
@@ -20,7 +20,7 @@
     bob-ruby.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, fu, ruby-nix, bob-ruby }:
+  outputs = { self, nixpkgs, fu, ruby-nix, bundix, bob-ruby }:
     with fu.lib;
     eachDefaultSystem (system:
       let
@@ -41,6 +41,7 @@
         # See available versions here: https://github.com/bobvanderlinden/nixpkgs-ruby/blob/master/ruby/versions.json
         ruby = pkgs."ruby-3.2";
 
+        bundixcli = bundix.packages.${system}.default;
       in rec {
         inherit (rubyNix {
           inherit gemset ruby;
@@ -52,7 +53,7 @@
         devShells = rec {
           default = dev;
           dev = pkgs.mkShell {
-            buildInputs = [ env ruby-nix.bundix ]
+            buildInputs = [ env bundixcli ]
               ++ (with pkgs; [ nodejs-19_x yarn rufo ]);
           };
         };
