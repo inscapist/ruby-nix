@@ -12,7 +12,9 @@
   };
 
   outputs = { self, nixpkgs, bundix }: {
-    lib = import ./. bundix;
+    inherit bundix;
+
+    lib = import ./.;
 
     # preset gemsets
     presets = { devmode = import ./presets/devmode/gemset.nix; };
@@ -32,6 +34,6 @@
         system = "x86_64-linux";
         overlays = [ (import ./modules/overlays/ruby-overlay.nix) ];
       };
-    in import ./shell.nix { inherit pkgs bundix; };
+    in import ./shell.nix pkgs;
   };
 }

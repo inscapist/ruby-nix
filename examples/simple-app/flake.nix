@@ -22,12 +22,6 @@
         pkgs = import nixpkgs {
           inherit system;
           overlays = [ bob-ruby.overlays.default ];
-          # You can now refer to packages like:
-          #   pkgs."ruby-3"
-          #   pkgs."ruby-2.7"
-          #   pkgs."ruby-3.0.1"
-          # See available versions here:
-          #   https://github.com/bobvanderlinden/nixpkgs-ruby/blob/master/ruby/versions.json
         };
         rubyNix = ruby-nix.lib pkgs;
 
@@ -35,31 +29,25 @@
         gemset =
           if builtins.pathExists ./gemset.nix then import ./gemset.nix else { };
 
-        # NOTE If you want to override gem build config, see
+        # If you want to override gem build config, see
         #   https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/ruby-modules/gem-config/default.nix
-        # gemConfig = {
-        #   cbc-wrapper = _: { buildInputs = [ pkgs.cbc ]; };
-        #   gpgme = _: { buildInputs = [ pkgs.pkg-config ]; };
-        # };
         gemConfig = { };
 
-      in rec {
-        devmode = ruby-nix.presets.devmode;
-        finalGemset = devmode // gemset;
+        # See available versions here: https://github.com/bobvanderlinden/nixpkgs-ruby/blob/master/ruby/versions.json
+        ruby = pkgs."ruby-3.2";
 
+      in rec {
         inherit (rubyNix {
+          inherit gemset ruby;
           name = "my-rails-app";
-          gemset = finalGemset;
-          ruby = pkgs."ruby-3.2";
           gemConfig = pkgs.defaultGemConfig // gemConfig;
         })
-          env ruby;
+          env;
 
         devShells = rec {
           default = dev;
           dev = pkgs.mkShell {
-            # NOTE ordering is important here, the head in $PATH always take precedence
-            buildInputs = [ ruby env ]
+            buildInputs = [ env ruby-nix.bundix ]
               ++ (with pkgs; [ nodejs-19_x yarn rufo ]);
           };
         };

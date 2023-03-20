@@ -1,6 +1,6 @@
-{ pkgs, bundix }:
+pkgs:
 let
-  rubyNix = (import ./default.nix bundix) pkgs;
+  rubyNix = import ./default.nix pkgs;
   inherit (rubyNix {
     name = "rubynix-test";
     gemset = ./tests/tiny_app/gemset.nix;

@@ -1,5 +1,3 @@
-bundix:
-
 { stdenv, lib, buildEnv, ruby, makeBinaryWrapper, defaultGemConfig, buildRubyGem
 , ... }@pkgs:
 
@@ -18,7 +16,7 @@ let
   bundler = pkgs.bundler.override { inherit ruby; };
 
   requirements = (pkgs // {
-    inherit my name ruby bundler bundix gempaths gemConfig groups document
+    inherit my name ruby bundler gempaths gemConfig groups document
       extraRubySetup;
     gemset = if builtins.typeOf gemset == "set" then
       gemset
