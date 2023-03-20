@@ -10,6 +10,11 @@
   inputs = {
     nixpkgs.url = "nixpkgs";
     ruby-nix.url = "github:sagittaros/ruby-nix";
+    # a fork that supports platform dependant gem
+    bundix = {
+      url = "github:sagittaros/bundix/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     fu.url = "github:numtide/flake-utils";
     bob-ruby.url = "github:bobvanderlinden/nixpkgs-ruby";
     bob-ruby.inputs.nixpkgs.follows = "nixpkgs";

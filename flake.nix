@@ -1,19 +1,9 @@
 {
   description = "Nix function(s) for creating ruby environments";
 
-  inputs = {
-    nixpkgs.url = "nixpkgs";
+  inputs = { nixpkgs.url = "nixpkgs"; };
 
-    # a fork that supports platform dependant gem
-    bundix = {
-      url = "github:sagittaros/bundix/main";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-  };
-
-  outputs = { self, nixpkgs, bundix }: {
-    inherit bundix;
-
+  outputs = { self, nixpkgs }: {
     lib = import ./.;
 
     # preset gemsets
