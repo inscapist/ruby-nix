@@ -1,18 +1,10 @@
 {
   description = "Nix function(s) for creating ruby environments";
 
-  inputs = {
-    nixpkgs.url = "nixpkgs";
+  inputs = { nixpkgs.url = "nixpkgs"; };
 
-    # a fork that supports platform dependant gem
-    bundix = {
-      url = "github:sagittaros/bundix/main";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-  };
-
-  outputs = { self, nixpkgs, bundix }: {
-    lib = import ./. bundix;
+  outputs = { self, nixpkgs }: {
+    lib = import ./.;
 
     # preset gemsets
     presets = { devmode = import ./presets/devmode/gemset.nix; };
@@ -32,6 +24,6 @@
         system = "x86_64-linux";
         overlays = [ (import ./modules/overlays/ruby-overlay.nix) ];
       };
-    in import ./shell.nix { inherit pkgs bundix; };
+    in import ./shell.nix pkgs;
   };
 }
