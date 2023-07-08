@@ -52,12 +52,12 @@ reproducible ruby environment
 ```
 ## Global Bundix Installation (optional)
 
-My bundix [fork](https://github.com/sagittaros/bundix) is needed to generate the correct `gemset.nix`. It is available in nix shell by default. 
+My bundix [fork](https://github.com/inscapist/bundix) is needed to generate the correct `gemset.nix`. It is available in nix shell by default. 
 
 
 ``` sh
 # installation
-nix profile install github:sagittaros/bundix/main
+nix profile install github:inscapist/bundix/main
 
 # upgrade
 nix profile upgrade '.*'
@@ -71,7 +71,7 @@ With nix [installed](/docs/nix-installation.md) and optionally [direnv](/docs/di
 
 ``` sh
 cd myapp
-nix flake init -t github:sagittaros/ruby-nix/main
+nix flake init -t github:inscapist/ruby-nix/main
 ```
 
 #### 2. Enter nix shell
