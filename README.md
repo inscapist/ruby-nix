@@ -52,7 +52,7 @@ reproducible ruby environment
 ```
 ## Global Bundix Installation (optional)
 
-My bundix [fork](https://github.com/inscapist/bundix) is needed to generate the correct `gemset.nix`. It is available in nix shell by default. 
+My bundix [fork](https://github.com/inscapist/bundix) is needed to generate the correct `gemset.nix`. It is available in nix shell out of the box. 
 
 
 ``` sh
@@ -106,6 +106,9 @@ run `bundle add GEM --skip-install` instead
 
 #### bundle install (after modifying Gemfile)
 run `bundle lock` instead
+
+#### bundle update GEM
+run `bundle lock --update=GEM` instead
 
 #### Adding multiple platforms to Gemfile.lock
 
