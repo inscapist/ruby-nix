@@ -138,8 +138,14 @@ PLATFORMS
   x86_64-darwin-21
   x86_64-linux
 ```
+### 3. `bundle lock` fails with `Permission denied` when Gemfile contains git sources
 
-### 3. How to use a different ruby version?
+A fix is under way, meanwhile, do:
+```
+bundle config set --local path 'vendor/bundle'
+```
+
+### 4. How to use a different ruby version?
 
 Code comment of [simple-app](examples/simple-app/flake.nix) shows how to use ruby_3_1 instead of the
 _current_ default version (2.7.6). You can also write your own overlay that overrides globally with your own ruby derivation.
