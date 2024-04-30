@@ -7,9 +7,8 @@ require 'fileutils'
 out = ENV["out"]
 ruby = ARGV[0]
 gem_path = ARGV[1]
-bundler_path = ARGV[2]
-gems = ARGV[3].split
-groups = ARGV[4].split
+gems = ARGV[2].split
+groups = ARGV[3].split
 
 # generate binstubs
 FileUtils.mkdir_p("#{out}/bin")
@@ -52,8 +51,6 @@ def bundler_setup!
   ENV.delete 'BUNDLE_PATH'
   ENV['BUNDLE_FROZEN'] = '1'
   ENV['BUNDLE_IGNORE_CONFIG'] = '1'
-
-  $LOAD_PATH.unshift #{File.join(bundler_path, "/lib").dump}
 
   Bundler.setup(#{groups.map(&:dump).join(', ')})
 end

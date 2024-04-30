@@ -13,11 +13,10 @@ rec {
 
   requirements = (
     pkgs
-    // rec {
+    // {
       inherit ruby gempaths;
       name = "test-ruby-nix";
       my = import ./mylib.nix pkgs;
-      bundler = pkgs.bundler.override { inherit ruby; };
       gemConfig = defaultGemConfig // {
         sorbet-static = _: { buildFlags = [ "--random-flag" ]; };
       };
