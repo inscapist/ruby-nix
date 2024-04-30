@@ -1,10 +1,17 @@
-{ writeShellScriptBin, substituteAll, lib, ... }: {
+{
+  writeShellScriptBin,
+  substituteAll,
+  lib,
+  ...
+}:
+{
 
   # create a binary in /bin
-  shell = cmd: path: vars:
+  shell =
+    cmd: path: vars:
     let
       file = substituteAll ({ src = path; } // vars);
       content = (builtins.readFile file);
-    in writeShellScriptBin cmd content;
-
+    in
+    writeShellScriptBin cmd content;
 }

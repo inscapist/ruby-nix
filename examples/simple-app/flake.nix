@@ -3,8 +3,7 @@
 
   nixConfig = {
     extra-substituters = "https://nixpkgs-ruby.cachix.org";
-    extra-trusted-public-keys =
-      "nixpkgs-ruby.cachix.org-1:vrcdi50fTolOxWCZZkw0jakOnUI1T19oYJ+PRYdK4SM=";
+    extra-trusted-public-keys = "nixpkgs-ruby.cachix.org-1:vrcdi50fTolOxWCZZkw0jakOnUI1T19oYJ+PRYdK4SM=";
   };
 
   inputs = {
@@ -20,9 +19,18 @@
     bob-ruby.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, fu, ruby-nix, bundix, bob-ruby }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      fu,
+      ruby-nix,
+      bundix,
+      bob-ruby,
+    }:
     with fu.lib;
-    eachDefaultSystem (system:
+    eachDefaultSystem (
+      system:
       let
         pkgs = import nixpkgs {
           inherit system;
@@ -31,8 +39,7 @@
         rubyNix = ruby-nix.lib pkgs;
 
         # TODO generate gemset.nix with bundix
-        gemset =
-          if builtins.pathExists ./gemset.nix then import ./gemset.nix else { };
+        gemset = if builtins.pathExists ./gemset.nix then import ./gemset.nix else { };
 
         # If you want to override gem build config, see
         #   https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/ruby-modules/gem-config/default.nix
@@ -42,20 +49,32 @@
         ruby = pkgs."ruby-3.2";
 
         bundixcli = bundix.packages.${system}.default;
-      in rec {
-        inherit (rubyNix {
-          inherit gemset ruby;
-          name = "my-rails-app";
-          gemConfig = pkgs.defaultGemConfig // gemConfig;
-        })
-          env;
+      in
+      rec {
+        inherit
+          (rubyNix {
+            inherit gemset ruby;
+            name = "my-rails-app";
+            gemConfig = pkgs.defaultGemConfig // gemConfig;
+          })
+          env
+          ;
 
         devShells = rec {
           default = dev;
           dev = pkgs.mkShell {
-            buildInputs = [ env bundixcli ]
-              ++ (with pkgs; [ nodejs-19_x yarn rufo ]);
+            buildInputs =
+              [
+                env
+                bundixcli
+              ]
+              ++ (with pkgs; [
+                nodejs-19_x
+                yarn
+                rufo
+              ]);
           };
         };
-      });
+      }
+    );
 }
