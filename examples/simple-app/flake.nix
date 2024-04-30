@@ -46,9 +46,20 @@
         gemConfig = { };
 
         # See available versions here: https://github.com/bobvanderlinden/nixpkgs-ruby/blob/master/ruby/versions.json
-        ruby = pkgs."ruby-3.2";
+        ruby = pkgs."ruby-3.3.1";
 
+        # Running bundix would regenerate `gemset.nix`
         bundixcli = bundix.packages.${system}.default;
+
+        # Use these instead of the original `bundle <mutate>` commands
+        bundleLock = pkgs.writeShellScriptBin "bundle-lock" ''
+          export BUNDLE_PATH=vendor/bundle
+          bundle lock
+        '';
+        bundleUpdate = pkgs.writeShellScriptBin "bundle-update" ''
+          export BUNDLE_PATH=vendor/bundle
+          bundle lock --update
+        '';
       in
       rec {
         inherit
@@ -67,11 +78,13 @@
               [
                 env
                 bundixcli
+                bundleLock
+                bundleUpdate
               ]
               ++ (with pkgs; [
-                nodejs-19_x
                 yarn
                 rufo
+                # more packages here
               ]);
           };
         };
