@@ -1,4 +1,11 @@
-{ stdenv, lib, my, buildEnv, name, ... }@args:
+{
+  stdenv,
+  lib,
+  my,
+  buildEnv,
+  name,
+  ...
+}@args:
 
 let
   rubyEnv = import ./ruby-env.nix args;
@@ -6,12 +13,22 @@ let
   # useful for development
   env = buildEnv {
     inherit name;
-    paths = [ rubyEnv (lib.lowPrio rubyEnv.ruby) ];
+    paths = [
+      rubyEnv
+      (lib.lowPrio rubyEnv.ruby)
+    ];
     pathsToLink = [ "/" ];
-    passthru = { ruby = rubyEnv.ruby; };
-    meta = { platforms = rubyEnv.meta.platforms; };
+    passthru = {
+      ruby = rubyEnv.ruby;
+    };
+    meta = {
+      platforms = rubyEnv.meta.platforms;
+    };
   };
 
   # useful for production
   envMinimal = rubyEnv.override { inherit name; };
-in { inherit env envMinimal; }
+in
+{
+  inherit env envMinimal;
+}
