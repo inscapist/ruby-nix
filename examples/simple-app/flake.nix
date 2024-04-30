@@ -69,7 +69,6 @@
                 bundixcli
               ]
               ++ (with pkgs; [
-                nodejs-19_x
                 yarn
                 rufo
               ]);
