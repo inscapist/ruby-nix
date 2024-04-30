@@ -50,6 +50,7 @@ reproducible ruby environment
         };
       });
 ```
+
 ## Global Bundix Installation (optional)
 
 My bundix [fork](https://github.com/inscapist/bundix) is needed to generate the correct `gemset.nix`. It is available in nix shell out of the box. 
@@ -79,11 +80,13 @@ nix flake init -t github:inscapist/ruby-nix/main
 If you are a [direnv](/docs/direnv.md) user, add the following content to `.envrc` and run `direnv allow`. Otherwise, run `nix develop -c zsh`.
 
 ```
-if ! has nix_direnv_version || ! nix_direnv_version 2.2.0; then
-  source_url "https://raw.githubusercontent.com/nix-community/nix-direnv/2.2.0/direnvrc" "sha256-5EwyKnkJNQeXrRkYbwwRBcXbibosCJqyIUuz9Xq+LRc="
+if ! has nix_direnv_version || ! nix_direnv_version 3.0.4; then
+    source_url "https://raw.githubusercontent.com/nix-community/nix-direnv/3.0.4/direnvrc" "sha256-DzlYZ33mWF/Gs8DDeyjr8mnVmQGx7ASYqA5WlxwvBG4="
 fi
 use flake
 ```
+
+Or use the latest version [here](https://github.com/nix-community/nix-direnv/blob/master/templates/flake/.envrc).
 
 #### 3. In nix shell
 
@@ -99,7 +102,7 @@ Otherwise, Ctrl-D to exit the current nix shell, and enter again.
 
 ### 2. How to `bundle`?
 
-With ruby-nix, you shouldn't install gems using bundle. Nix will build the gems for you. **Always run `bundix` to update your gemset after making changes to Gemfile.lock.**
+With ruby-nix, you shouldn't install gems using bundle. Nix will build the gems for you. **Always run `bundix` to update your gemset after making changes to Gemfile.lock.**. If you faced error with `git fetch`, set `BUNDLE_PATH=vendor/bundle` in your environment.
 
 #### bundle add
 run `bundle add GEM --skip-install` instead
@@ -140,9 +143,15 @@ PLATFORMS
 ```
 ### 3. `bundle lock` fails with `Permission denied` when Gemfile contains git sources
 
-A fix is under way, meanwhile, do:
-```
+You can either set this permanently at `.bundle`
+
+``` sh
 bundle config set --local path 'vendor/bundle'
+```
+
+Or temporarily using:
+``` sh
+export BUNDLE_PATH=vendor/bundle
 ```
 
 ### 4. How to use a different ruby version?
