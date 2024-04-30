@@ -22,7 +22,6 @@
 
 let
   my = import ./mylib.nix pkgs;
-  bundler = pkgs.bundler.override { inherit ruby; };
 
   requirements = (
     pkgs
@@ -31,7 +30,6 @@ let
         my
         name
         ruby
-        bundler
         gempaths
         gemConfig
         groups

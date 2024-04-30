@@ -5,7 +5,6 @@
   buildEnv,
   name,
   ruby,
-  bundler,
   gempaths,
   groups,
   extraRubySetup,
@@ -18,14 +17,13 @@ let
     ${ruby}/bin/ruby ${./gen-bin-stubs.rb} \
       "${ruby}/bin/ruby" \
       "$out/${ruby.gemPath}" \
-      "${bundler}/${ruby.gemPath}/gems/bundler-${bundler.version}" \
       ${lib.escapeShellArg gempaths} \
       ${lib.escapeShellArg groups}
   '';
 
   rubyEnv = buildEnv {
     name = "${name}-ruby-env";
-    paths = gempaths ++ [ bundler ];
+    paths = gempaths;
     pathsToLink = [ "/lib" ];
     postBuild = mkBinStubs + lib.optionalString (extraRubySetup != null) extraRubySetup;
     passthru = {
