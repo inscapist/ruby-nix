@@ -83,10 +83,12 @@ If you are a [direnv](/docs/direnv.md) user, add the following content to `.envr
 if ! has nix_direnv_version || ! nix_direnv_version 3.0.4; then
     source_url "https://raw.githubusercontent.com/nix-community/nix-direnv/3.0.4/direnvrc" "sha256-DzlYZ33mWF/Gs8DDeyjr8mnVmQGx7ASYqA5WlxwvBG4="
 fi
+
+watch_file gemset.nix
 use flake
 ```
 
-Or use the latest version [here](https://github.com/nix-community/nix-direnv/blob/master/templates/flake/.envrc).
+Or use the latest version [here](https://github.com/nix-community/nix-direnv/blob/master/templates/flake/.envrc). Don't forget to add `watch_file /path_to/gemset.nix` to ensure direnv picks up gem changes.
 
 #### 3. In nix shell
 
