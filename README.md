@@ -145,16 +145,13 @@ PLATFORMS
 ```
 ### 3. `bundle lock` fails with `Permission denied` when Gemfile contains git sources
 
-You can either set this permanently at `.bundle`
-
 ``` sh
-bundle config set --local path 'vendor/bundle'
+export BUNDLE_PATH=vendor/bundle 
+bundle lock
+rm -rf vendor/bundle
 ```
 
-Or temporarily using:
-``` sh
-export BUNDLE_PATH=vendor/bundle
-```
+also remove or rename `.bundle` if it continues to fail.
 
 ### 4. How to use a different ruby version?
 
