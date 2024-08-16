@@ -29,7 +29,7 @@ rec {
     _: versions:
     pipe versions [
       (map applyDependencies)
-      (map buildRubyGem)
+      (map (spec: buildRubyGem (spec // { inherit ruby; })))
     ]
   );
 
