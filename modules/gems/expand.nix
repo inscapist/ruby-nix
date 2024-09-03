@@ -4,6 +4,7 @@
   document,
   gemConfig,
   my,
+  autoPatchelfHook,
   ...
 }:
 
@@ -41,6 +42,8 @@ rec {
         source
         ;
       inherit (source) type compile;
+
+      buildInputs = if source.compile then [ ] else [ autoPatchelfHook ];
 
       dependencies = attrs.dependencies or [ ];
 
