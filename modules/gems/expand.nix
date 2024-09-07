@@ -43,7 +43,7 @@ rec {
         ;
       inherit (source) type compile;
 
-      buildInputs = if source.compile then [ ] else [ autoPatchelfHook ];
+      buildInputs = if source.compile || !stdenv.isLinux then [ ] else [ autoPatchelfHook ];
 
       dependencies = attrs.dependencies or [ ];
 
