@@ -1,9 +1,9 @@
 {
   lib,
   ruby,
+  stdenv,
   document,
   gemConfig,
-  my,
   autoPatchelfHook,
   ...
 }:
