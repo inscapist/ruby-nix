@@ -16,7 +16,7 @@ GEM
     regexp_parser (2.6.1)
     reline (0.3.2)
       io-console (~> 0.5)
-    rexml (3.2.5)
+    rexml (3.3.9)
     rubocop (1.43.0)
       json (~> 2.3)
       parallel (~> 1.10)
