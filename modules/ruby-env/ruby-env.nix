@@ -23,6 +23,7 @@ let
 
   rubyEnv = buildEnv {
     name = "${name}-ruby-env";
+    ignoreCollisions = true;
     paths = gempaths;
     pathsToLink = [ "/lib" ];
     postBuild = mkBinStubs + lib.optionalString (extraRubySetup != null) extraRubySetup;
