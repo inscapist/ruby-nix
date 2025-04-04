@@ -8,6 +8,7 @@
   gempaths,
   groups,
   extraRubySetup,
+  ignoreCollisions,
   ...
 }:
 
@@ -23,7 +24,7 @@ let
 
   rubyEnv = buildEnv {
     name = "${name}-ruby-env";
-    ignoreCollisions = true;
+    inherit ignoreCollisions;
     paths = gempaths;
     pathsToLink = [ "/lib" ];
     postBuild = mkBinStubs + lib.optionalString (extraRubySetup != null) extraRubySetup;

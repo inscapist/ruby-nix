@@ -18,6 +18,7 @@
   groups ? null, # null or a list of groups, used by Bundler.setup
   document ? [ ], # e.g. [ "ri" "rdoc" ]
   extraRubySetup ? null, # additional setup script goes here
+  ignoreCollisions ? true, # whether to ignore collisions or abort
 }:
 
 let
@@ -35,6 +36,7 @@ let
         groups
         document
         extraRubySetup
+        ignoreCollisions
         ;
       gemset =
         if builtins.typeOf gemset == "set" then
