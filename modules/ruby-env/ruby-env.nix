@@ -37,6 +37,7 @@ let
         buildPhase = ''
           mkdir -p $out/bin
           for i in ${ruby}/bin/*; do
+            [[ $i == *.lock ]] && continue
             makeWrapper "$i" $out/bin/$(basename "$i") \
               --set GEM_PATH ${rubyEnv}/${ruby.gemPath} \
               --set GEM_HOME ${rubyEnv}/${ruby.gemPath}
