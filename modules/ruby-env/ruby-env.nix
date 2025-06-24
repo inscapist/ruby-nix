@@ -34,14 +34,19 @@ let
         nativeBuildInputs = [ makeBinaryWrapper ];
         dontUnpack = true;
 
-        buildPhase = ''
-          mkdir -p $out/bin
-          for i in ${ruby}/bin/*; do
-            makeWrapper "$i" $out/bin/$(basename "$i") \
-              --set GEM_PATH ${rubyEnv}/${ruby.gemPath} \
-              --set GEM_HOME ${rubyEnv}/${ruby.gemPath}
-          done
-        '';
+        buildPhase =
+          let
+            fallbackPath = "lib/ruby/gems/${lib.versions.majorMinor ruby.version}.0";
+            gemPath = ruby.gemPath or fallbackPath;
+          in
+          ''
+            mkdir -p $out/bin
+            for i in ${ruby}/bin/*; do
+              makeWrapper "$i" $out/bin/$(basename "$i") \
+                --set GEM_PATH ${rubyEnv}/${gemPath} \
+                --set GEM_HOME ${rubyEnv}/${gemPath}
+            done
+          '';
 
         dontInstall = true;
         doCheck = true;
