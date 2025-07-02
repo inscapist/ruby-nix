@@ -18,7 +18,7 @@ rec {
     attrs:
     let
       f = gemConfig.${attrs.gemName};
-      apply = (gemConfig ? ${attrs.gemName}) && attrs.compile;
+      apply = (gemConfig ? ${attrs.gemName});
     in
     if apply then attrs // f attrs else attrs;
 
