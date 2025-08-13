@@ -175,6 +175,14 @@ Check the previous section. You should only use `bundler` to lock your dependenc
 #### I don't like that `nix develop` is a bash shell
 Use `nix develop -c zsh` or even better install `.envrc`, following this guide.
 
+#### binstubs don't work, it is saying gems are missing
+add this to the binstubs (bin/<my-binary>). 
+```
+ENV["BUNDLE_IGNORE_CONFIG"] = "1"
+```
+
+This is because Bundler reads configuration from various sources (.bundle/config, ~/.bundle/config, and environment variables) that can interfere with how gems are located when the binstub runs.
+
 ## Roadmap
 
 1. Try out more ruby versions, both old and new
