@@ -176,7 +176,7 @@ Check the previous section. You should only use `bundler` to lock your dependenc
 Use `nix develop -c zsh` or even better install `.envrc`, following this guide.
 
 #### binstubs don't work, it is saying gems are missing
-add this to the binstubs (bin/<my-binary>). 
+add this to the binstubs (ie "bin/<my-gem>"). 
 ```
 ENV["BUNDLE_IGNORE_CONFIG"] = "1"
 ```
